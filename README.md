@@ -32,8 +32,6 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
   * Link da organização no Google Maps;
   * Identificação do responsável que forneceu as informações para o levantamento.
 
-  **Observação:** os dados pessoais de funcionários, clientes, devedores ou outras pessoas envolvidas não devem ser expostos no trabalho.
-
 ---
 
 ## 2. Processos de Negócio
