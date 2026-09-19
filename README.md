@@ -26,10 +26,9 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
 * **Evidências da organização:**
   Esta seção deverá ser complementada pelo grupo com evidências obtidas durante a pesquisa de campo, como:
 
-  * Foto da fachada ou do local da organização;
-  * Endereço;
-  * Telefone ou outro meio de contato;
-  * Site ou rede social oficial, caso exista;
+  * Endereço: R. Serra de Botucatu, 660 - 11º Andar - Tatuapé, São Paulo - SP, 03317-000
+  * Telefone: (11) 3939-0844
+  * Site: https://www.araujoeaugusto.com.br/
   * Link da organização no Google Maps;
   * Identificação do responsável que forneceu as informações para o levantamento.
 
