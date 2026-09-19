@@ -134,8 +134,6 @@ Permitir registrar honorários, pagamentos e pendências financeiras relacionado
 **RF16 — Relatórios Financeiros**
 Permitir gerar relatórios financeiros organizados por carteira e cliente.
 
-Os requisitos acima foram derivados dos processos e requisitos já identificados pelo grupo, incluindo as funcionalidades da parte negocial e da parte jurídica.
-
 ### 3.2 Requisitos Não Funcionais
 
 **RNF01 — Segurança:**
@@ -194,8 +192,6 @@ Uma audiência somente poderá ser agendada quando não houver conflito de agend
 
 **RN09 — Honorários:**
 Os honorários deverão estar vinculados a um processo ou a uma negociação.
-
-Essas regras correspondem às regras de negócio já levantadas pelo grupo.
 
 ### Restrições organizacionais
 
@@ -302,9 +298,6 @@ As carteiras identificadas no levantamento incluem Neon, Itapeva, CredAtivos e K
 | Meio       | Canal utilizado para contato   | Obrigatório                                           |
 | Data       | Data da interação              | Obrigatório                                           |
 | Resultado  | Resultado da interação         | Sem resposta, promessa de pagamento ou acordo fechado |
-
-O dicionário acima foi estruturado a partir dos atributos e regras apresentados no levantamento inicial do grupo.
-**Atenção à privacidade:** qualquer exemplo de dados utilizado posteriormente deverá ser fictício. Não devem ser incluídos no repositório nomes, CPFs, telefones, e-mails ou outros dados reais de clientes, devedores ou funcionários.
 
 ---
 
@@ -415,8 +408,6 @@ O DER deverá representar as entidades, seus atributos, relacionamentos e respec
 O DER deverá ser anexado ao repositório como imagem.
 
 **Arquivo sugerido:** `DER.png`
-
-O diagrama deve demonstrar potencial de expansão para as próximas etapas do projeto, mantendo as entidades separadas de acordo com suas responsabilidades e permitindo a integração entre as áreas jurídica, financeira e de recuperação de crédito.
 
 ---
 
