@@ -76,13 +76,7 @@ As carteiras identificadas no levantamento são **Neon, Itapeva, CredAtivos e Kr
 
 ### Fluxogramas
 
-Os fluxogramas deverão representar visualmente os principais processos identificados. Recomenda-se representar pelo menos:
-
-1. Cadastro de carteira → cadastro de devedor → contato → negociação → pagamento;
-2. Cadastro de cliente → abertura de processo → elaboração de petição → audiência/prazo → acompanhamento processual;
-3. Processo/negociação → lançamento financeiro → pagamento → atualização das pendências.
-
-**Os fluxogramas devem ser anexados como imagens ao repositório do GitHub.**
+**Os fluxogramas estão anexados como imagens no repositório do GitHub.**
 
 ---
 
