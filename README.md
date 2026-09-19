@@ -376,7 +376,7 @@ O modelo também separa as operações jurídicas das operações de recuperaç�
 
 ## 7. Diagrama Entidade-Relacionamento (DER)
 
-O DER deverá representar as entidades, seus atributos, relacionamentos e respectivas cardinalidades.
+O DER representa as entidades, seus atributos, relacionamentos e respectivas cardinalidades.
 
 ### Entidades
 
@@ -390,24 +390,7 @@ O DER deverá representar as entidades, seus atributos, relacionamentos e respec
 * Negociação
 * Contato
 
-### Principais relacionamentos e cardinalidades propostas
-
-| Relacionamento          | Cardinalidade |
-| ----------------------- | ------------- |
-| Cliente — Processo      | 1:N           |
-| Processo — Documento    | 1:N           |
-| Processo — Financeiro   | 1:N           |
-| Equipe — Processo       | 1:N           |
-| Carteira — Devedor      | 1:N           |
-| Devedor — Contato       | 1:N           |
-| Devedor — Negociação    | 1:N           |
-| Negociação — Financeiro | 1:N           |
-| Equipe — Carteira       | 1:N           |
-| Equipe — Negociação     | 1:N           |
-
-O DER deverá ser anexado ao repositório como imagem.
-
-**Arquivo sugerido:** `DER.png`
+**O DER está anexado ao repositório como imagem.**
 
 ---
 
