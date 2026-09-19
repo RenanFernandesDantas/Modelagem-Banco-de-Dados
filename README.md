@@ -391,6 +391,7 @@ O DER representa as entidades, seus atributos, relacionamentos e respectivas car
 * Contato
 
 **O DER está anexado ao repositório como imagem.**
+https://lucid.app/lucidchart/77bbf297-5c1a-43c2-958c-67c57594741d/edit?viewport_loc=68%2C-318%2C2614%2C1340%2C0_0&invitationId=inv_68ab5264-15fd-4b61-8bc9-50d818e81464
 
 ---
 
