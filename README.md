@@ -29,7 +29,6 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
   * Endereço: R. Serra de Botucatu, 660 - 11º Andar - Tatuapé, São Paulo - SP, 03317-000
   * Telefone: (11) 3939-0844
   * Site: https://www.araujoeaugusto.com.br/
-  * Link da organização no Google Maps;
   * Identificação do responsável que forneceu as informações para o levantamento.
 
 ---
@@ -75,6 +74,9 @@ A partir do levantamento realizado, foram identificados quatro grupos principais
 As carteiras identificadas no levantamento são **Neon, Itapeva, CredAtivos e Kroton**.
 
 ### Fluxogramas
+*Início -> Cadastro de Carteira -> Cadastro de Devedor -> Contato -> Negociação -> Pagamento -> Fim
+*Início -> Cadastro de Cliente -> Abertura de Processo -> Elaboração de Petição -> Audiência/Prazo -> Acompanhamento Processual -> Fim
+*Início -> Processo/Negociação -> Lançamento Financeiro -> Pagamento -> Atualização das pendências -> Fim
 
 **Os fluxogramas estão anexados como imagens no repositório do GitHub.**
 
