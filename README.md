@@ -74,9 +74,9 @@ A partir do levantamento realizado, foram identificados quatro grupos principais
 As carteiras identificadas no levantamento são **Neon, Itapeva, CredAtivos e Kroton**.
 
 ### Fluxogramas
-*Início -> Cadastro de Carteira -> Cadastro de Devedor -> Contato -> Negociação -> Pagamento -> Fim;
-*Início -> Cadastro de Cliente -> Abertura de Processo -> Elaboração de Petição -> Audiência/Prazo -> Acompanhamento Processual -> Fim;
-*Início -> Processo/Negociação -> Lançamento Financeiro -> Pagamento -> Atualização das pendências -> Fim;
+* Início -> Cadastro de Carteira -> Cadastro de Devedor -> Contato -> Negociação -> Pagamento -> Fim;
+* Início -> Cadastro de Cliente -> Abertura de Processo -> Elaboração de Petição -> Audiência/Prazo -> Acompanhamento Processual -> Fim;
+* Início -> Processo/Negociação -> Lançamento Financeiro -> Pagamento -> Atualização das pendências -> Fim.
 
 **Os fluxogramas estão anexados como imagens no repositório do GitHub.**
 
