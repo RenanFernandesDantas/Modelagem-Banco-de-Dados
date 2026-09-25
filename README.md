@@ -1,3 +1,7 @@
+#Integrantes
+* Renan Fernandes Dantas
+* Mateus Augusto Santos Fernandes
+
 # Modelagem_Banco_de_Dados
 Repositório para a entrega das atividades da matéria de Modelagem de Banco de Dados do segundo semestre da faculdade
 
@@ -205,101 +209,9 @@ Essas restrições são importantes porque evitam registros sem contexto e garan
 
 ---
 
-## 5. Dicionário de Dados Conceitual (Preliminar)
+## 5. Dicionário de Dados Conceitual
 
-### 5.1 Cliente
-
-| Atributo   | Descrição                      | Regra de negócio associada |
-| ---------- | ------------------------------ | -------------------------- |
-| ID_Cliente | Identificador único do cliente | Obrigatório e único        |
-| Nome       | Nome completo do cliente       | Obrigatório                |
-| CPF/CNPJ   | Documento de identificação     | Único                      |
-| Endereço   | Endereço do cliente            | Opcional                   |
-| Telefone   | Telefone para contato          | Opcional                   |
-| Email      | Endereço eletrônico            | Opcional                   |
-
-### 5.2 Processo
-
-| Atributo      | Descrição                       | Regra de negócio associada   |
-| ------------- | ------------------------------- | ---------------------------- |
-| ID_Processo   | Identificador único do processo | Obrigatório e único          |
-| Tipo          | Tipo da ação/processo           | Obrigatório                  |
-| Status        | Situação atual do processo      | Ativo, suspenso ou encerrado |
-| Vara/Tribunal | Instância judicial responsável  | Obrigatório                  |
-| Prazos        | Datas de vencimento dos prazos  | Obrigatório                  |
-
-### 5.3 Equipe
-
-| Atributo       | Descrição                       | Regra de negócio associada |
-| -------------- | ------------------------------- | -------------------------- |
-| ID_Advogado    | Identificador único do advogado | Obrigatório                |
-| Nome           | Nome completo                   | Obrigatório                |
-| OAB            | Registro profissional           | Obrigatório                |
-| Especialização | Área de atuação                 | Opcional                   |
-| Função         | Cargo/função desempenhada       | Obrigatório                |
-
-### 5.4 Documento
-
-| Atributo     | Descrição                        | Regra de negócio associada |
-| ------------ | -------------------------------- | -------------------------- |
-| ID_Documento | Identificador único do documento | Obrigatório                |
-| Tipo         | Tipo de documento                | Obrigatório                |
-| Data         | Data de emissão                  | Obrigatório                |
-| Arquivo      | Arquivo digital armazenado       | Obrigatório                |
-
-### 5.5 Financeiro
-
-| Atributo      | Descrição                                  | Regra de negócio associada |
-| ------------- | ------------------------------------------ | -------------------------- |
-| ID_Financeiro | Identificador único do registro financeiro | Obrigatório                |
-| Honorários    | Valor dos honorários                       | Obrigatório                |
-| Pagamentos    | Registro dos pagamentos realizados         | Obrigatório                |
-| Pendências    | Valores ainda em aberto                    | Obrigatório                |
-| Vencimento    | Data de vencimento                         | Obrigatório                |
-
-### 5.6 Carteira
-
-| Atributo         | Descrição                       | Regra de negócio associada |
-| ---------------- | ------------------------------- | -------------------------- |
-| ID_Carteira      | Identificador único da carteira | Obrigatório                |
-| Nome             | Nome da carteira                | Obrigatório                |
-| Tipo de contrato | Tipo/natureza do contrato       | Obrigatório                |
-| Data início      | Início da vigência do contrato  | Obrigatório                |
-| Data fim         | Fim da vigência do contrato     | Opcional                   |
-
-As carteiras identificadas no levantamento incluem Neon, Itapeva, CredAtivos e Kroton.
-
-### 5.7 Devedor
-
-| Atributo           | Descrição                      | Regra de negócio associada  |
-| ------------------ | ------------------------------ | --------------------------- |
-| ID_Devedor         | Identificador único do devedor | Obrigatório                 |
-| Nome               | Nome completo                  | Obrigatório                 |
-| CPF/CNPJ           | Documento de identificação     | Único                       |
-| Endereço           | Localização                    | Opcional                    |
-| Telefone           | Telefone para contato          | Opcional                    |
-| Email              | Endereço eletrônico            | Opcional                    |
-| Situação da dívida | Situação atual da dívida       | Ativa, negociada ou quitada |
-
-### 5.8 Negociação
-
-| Atributo      | Descrição                         | Regra de negócio associada           |
-| ------------- | --------------------------------- | ------------------------------------ |
-| ID_Negociação | Identificador único da negociação | Obrigatório                          |
-| Tipo          | Tipo de negociação                | Obrigatório                          |
-| Status        | Situação atual                    | Em andamento, concluída ou cancelada |
-| Valor total   | Valor negociado                   | Obrigatório                          |
-| Data início   | Data de início da negociação      | Obrigatório                          |
-| Data fim      | Data de encerramento              | Opcional                             |
-
-### 5.9 Contato
-
-| Atributo   | Descrição                      | Regra de negócio associada                            |
-| ---------- | ------------------------------ | ----------------------------------------------------- |
-| ID_Contato | Identificador único do contato | Obrigatório                                           |
-| Meio       | Canal utilizado para contato   | Obrigatório                                           |
-| Data       | Data da interação              | Obrigatório                                           |
-| Resultado  | Resultado da interação         | Sem resposta, promessa de pagamento ou acordo fechado |
+**O Dicionário de Dados Conceitual está presente no arquivo HTML do repositório**
 
 ---
 
@@ -418,4 +330,44 @@ A separação das entidades também favorece a escalabilidade do sistema, pois n
 
 ---
 
+## 9. Uso de Inteligência Artificial
+
+Durante a elaboração desta entrega, o grupo utilizou o **ChatGPT** como ferramenta de apoio à organização das informações e à compreensão de alguns conceitos relacionados ao projeto. A IA não foi utilizada para elaborar o DER ou definir as entidades, atributos, relacionamentos e cardinalidades do modelo. Essas decisões foram realizadas pelo próprio grupo a partir das informações levantadas sobre a organização.
+
+### Organização do README.md
+
+| Item                                 | Descrição                                                                                                                                                                                                                                       |
+| ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Ferramenta e etapa**               | ChatGPT — organização das informações da Entrega 1                                                                                                                                                                                              |
+| **Motivação**                        | Utilizar a IA como apoio para organizar as informações levantadas pelo grupo dentro da estrutura do arquivo `README.md` fornecida pelo professor.                                                                                               |
+| **Prompt(s) utilizados**             | Solicitações para organizar as informações já coletadas pelo grupo de acordo com as seções e instruções presentes no modelo de entrega.                                                                                                         |
+| **Resposta recebida**                | A IA auxiliou na organização e estruturação do conteúdo, distribuindo as informações nas seções correspondentes do arquivo Markdown.                                                                                                            |
+| **Fontes consultadas e verificadas** | As informações utilizadas foram provenientes principalmente do levantamento realizado pelo grupo e do modelo de entrega fornecido pelo professor.                                                                                               |
+| **Trechos rejeitados ou corrigidos** | Informações que não haviam sido levantadas pelo grupo ou que não correspondiam ao funcionamento conhecido da organização foram desconsideradas ou revisadas.                                                                                    |
+| **Justificativa da escolha final**   | A organização final foi revisada pelo grupo para garantir que o conteúdo do README representasse as informações realmente levantadas.                                                                                                           |
+| **Reflexão crítica**                 | A IA foi utilizada principalmente como ferramenta de organização e revisão. O conteúdo precisava ser conferido pelo grupo, pois a IA não participou da pesquisa de campo e não possui conhecimento direto sobre o funcionamento da organização. |
+
+### Apoio na compreensão do DER
+
+A IA também foi utilizada para **explicar conceitos relacionados ao Diagrama Entidade-Relacionamento (DER)**, auxiliando o grupo na compreensão de conceitos como entidades, atributos, relacionamentos e cardinalidades.
+
+Esse auxílio teve caráter **didático e explicativo**. A IA não elaborou o DER final do projeto, não definiu quais entidades deveriam fazer parte do modelo e não determinou as cardinalidades utilizadas pelo grupo. A construção do modelo foi realizada pelos integrantes com base no levantamento dos processos e regras de negócio da organização.
+
+### Organização do arquivo HTML do Dicionário de Dados
+
+O ChatGPT também foi utilizado como apoio na organização do **arquivo HTML do Dicionário de Dados**.
+
+A ferramenta auxiliou na estruturação e organização visual das informações já levantadas pelo grupo, contribuindo para que os atributos, descrições e regras de negócio fossem apresentados de maneira mais organizada e padronizada no arquivo.
+
+Nesse caso, a IA foi utilizada como apoio à **formatação e organização do conteúdo**, e não para definir quais informações deveriam fazer parte do dicionário. Os dados e atributos utilizados foram definidos a partir do levantamento realizado pelo grupo.
+
+### Uso geral da IA no projeto
+
+De maneira geral, a utilização da IA ficou limitada a:
+
+* organizar as informações no arquivo `README.md`;
+* auxiliar na compreensão de conceitos relacionados ao DER;
+* melhorar a organização e apresentação do arquivo HTML do Dicionário de Dados.
+
+A IA **não foi utilizada para realizar a pesquisa de campo, definir o modelo conceitual ou construir o DER final**. As informações sobre a organização e as decisões de modelagem foram responsabilidade dos integrantes do grupo.
 
