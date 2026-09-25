@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DicionárioBancoDeDados</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+        <main>
+            <div class="Container">
+                <h2>Cliente</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_cliente</td>
+                            <td>Identificador único e imutável do cliente, utilizado para distinguir cada registro da base e garantir a integridade dos dados cadastrais.</td>
+                            <td>Obrigatório e Único</td>
+                        </tr>
+                        <tr>
+                            <td>Nome</td>
+                            <td>Nome completo do cliente, informado conforme documentação oficial, e usado para identificação pessoal e comunicação interna.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>CPF/CNPJ</td>
+                            <td>Número de identificação fiscal do cliente, podendo representar pessoa física ou jurídica, e deve ser único para evitar duplicidade de cadastros.</td>
+                            <td>Obrigatório e Único</td>
+                        </tr>
+                        <tr>
+                            <td>Endereço</td>
+                            <td>Conjunto de informações sobre o local de residência ou sede do cliente, incluindo rua, número, bairro, cidade, estado e CEP, quando aplicável.</td>
+                            <td>Opcional</td>
+                        </tr>
+                        <tr>
+                            <td>telefone</td>
+                            <td>Número de contato do cliente para comunicação, agendamento de atendimentos e confirmação de informações relevantes ao relacionamento.</td>
+                            <td>Opcional</td>
+                        </tr>
+                        <tr>
+                            <td>E-mail</td>
+                            <td>Endereço eletrônico utilizado para comunicação oficial, envio de documentos, notificações e informações operacionais relacionadas ao cliente.</td>
+                            <td>Opcional</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Processo</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Drescrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_processo</td>
+                            <td>Identificador único e exclusivo do processo, utilizado para registrar e localizar cada demanda judicial ou administrativa dentro do sistema.</td>
+                            <td>Obrigatório e Único</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo</td>
+                            <td>Classificação da natureza do processo, como civil, trabalhista, criminal ou administrativo, permitindo a organização e o acompanhamento por categoria.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>Estado atual da tramitação do processo, indicando em qual fase ele se encontra e permitindo controle da rotina operacional e prazos.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Vara/Tribunal</td>
+                            <td>Local onde o processo foi distribuído ou tramita, incluindo a instância judicial responsável e o órgão competente para apreciação do caso.</td>
+                            <td>Ativo, Arquivado ou Encerrado</td>
+                        </tr>
+                        <tr>
+                            <td>Prazos</td>
+                            <td>Datas e prazos legais ou internos relacionados ao processo, incluindo vencimentos, audiências, petições e marcos temporais relevantes para o acompanhamento.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Equipe</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Advogado</td>
+                            <td>Identificador único do profissional da área jurídica, usado para diferenciar cada advogado no cadastro da equipe e vincular suas atividades aos processos.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Nome</td>
+                            <td>Nome completo do advogado, registrado para identificação do responsável técnico e da comunicação interna com clientes e parceiros.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>OAB</td>
+                            <td>Registro profissional do advogado junto à Ordem dos Advogados do Brasil, documento essencial para validação da habilitação e atuação legal.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Especialização</td>
+                            <td>Área de atuação do advogado, como direito civil, trabalhista, tributário ou familiar, usada para segmentar competências e alocação de demandas.</td>
+                            <td>Opcional</td>
+                        </tr>
+                        <tr>
+                            <td>Função</td>
+                            <td>Cargo ou função desempenhada dentro da equipe, como sócio, associado, analista jurídico ou supervisor, definindo responsabilidades e hierarquia.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Documento</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Documento</td>
+                            <td>Identificador único do documento registrado no sistema, permitindo o controle de todos os arquivos associados a clientes, processos e procedimentos.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo</td>
+                            <td>Classificação do documento conforme sua natureza, como contrato, petição, procuração, comprovante, ata ou documento pessoal.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Data</td>
+                            <td>Data de emissão, assinatura ou cadastro do documento, fundamental para organização cronológica, controle e validade documental.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Arquivo</td>
+                            <td>Arquivo digital armazenado no sistema, contendo o conteúdo do documento em formato eletrônico para consulta, compartilhamento e rastreio.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Financeiro</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Financeiro</td>
+                            <td>Identificador único do registro financeiro, utilizado para controlar cada movimentação, cobrança, pagamento e situação econômica vinculada ao cliente ou processo.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Honorários</td>
+                            <td>Valor cobrado pela prestação dos serviços advocatícios, incluindo valores fixos, percentuais ou parcelas definidas em contrato ou acordo.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Pagamentos</td>
+                            <td>Registro das entradas financeiras realizadas, com data, valor, forma de pagamento e identificação do responsável pela quitação.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Pendências</td>
+                            <td>Valores ainda não quitados ou em atraso, que impactam o fluxo financeiro e indicam a necessidade de cobrança ou acompanhamento contábil.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Vencimento</td>
+                            <td>Data de vencimento de parcelas, contas ou obrigações financeiras, utilizada para controle de cobrança, acompanhamento de atrasos e geração de alertas.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Carteira</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Carteira</td>
+                            <td>Identificador único da carteira de clientes ou contratos, utilizado para registrar e organizar o conjunto de demandas associadas a um mesmo cliente ou relacionamento.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Nome</td>
+                            <td>Nome da carteira ou agrupamento de contratos, usado para identificar a categoria, base de clientes ou conjunto de processos vinculados a uma operação específica.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo de contrato</td>
+                            <td>Natureza do contrato firmado, como prestação de serviços, representação, parceria ou outro tipo de acordo, definindo as regras e obrigações aplicáveis.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Data início</td>
+                            <td>Data de início da vigência do contrato ou parceria, marcando o início da relação jurídica e operacional entre as partes.</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Data fim</td>
+                            <td>Data final da vigência do contrato, quando aplicável, indicando encerramento, renovação ou término do vínculo legal ou comercial.</td>
+                            <td>Opcional</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Devedor</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Devedor</td>
+                            <td>Identificador único do devedor</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Nome</td>
+                            <td>Nome completo</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>CPF/CNPJ</td>
+                            <td>Documento de identificação</td>
+                            <td>Único</td>
+                        </tr>
+                        <tr>
+                            <td>Endereço</td>
+                            <td>Localização</td>
+                            <td>Opcional</td>
+                        </tr>
+                        <tr>
+                            <td>Telefone</td>
+                            <td>Telefone para contato</td>
+                            <td>Opcional</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>Endereço eletrônico</td>
+                            <td>Opcional</td>
+                        </tr>
+                        <tr>
+                            <td>Situação da dívida</td>
+                            <td>Situação atual da dívida</td>
+                            <td>Ativa, negociada ou quitada</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Negociação</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Negociação</td>
+                            <td>Identificador único da negociação</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Tipo</td>
+                            <td>Tipo de negociação</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>Situação atual</td>
+                            <td>Em andamento, concluída ou cancelada</td>
+                        </tr>
+                        <tr>
+                            <td>Valor total</td>
+                            <td>Valor negociado</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Data início</td>
+                            <td>Data de início da negociação</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Data fim</td>
+                            <td>Data de encerramento</td>
+                            <td>Opcional</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class="Container">
+                <h2>Contato</h2>
+                <br><br>
+
+                <table>
+                    <thead>
+                        <tr>
+                                <th>Atributo</th>
+                                <th>Descrição do Termo</th>
+                                <th>Regra de Negócio associada</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>ID_Contato</td>
+                            <td>Identificador único do contato</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Meio</td>
+                            <td>Canal utilizado para contato</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Data</td>
+                            <td>Data da interação</td>
+                            <td>Obrigatório</td>
+                        </tr>
+                        <tr>
+                            <td>Resultado</td>
+                            <td>Resultado da interação</td>
+                            <td>Sem resposta, promessa de pagamento ou acordo fechado</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </main>
+</body>
+</html>
