@@ -4,6 +4,7 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
 # Integrantes
 * Renan Fernandes Dantas
 * Mateus Augusto Santos Fernandes
+* Guilherme Andrade Janas
 
 # Entrega 1 — Modelo Conceitual
 
