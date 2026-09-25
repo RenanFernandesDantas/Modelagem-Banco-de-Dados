@@ -1,9 +1,9 @@
+# Modelagem_Banco_de_Dados
+Repositório para a entrega das atividades da matéria de Modelagem de Banco de Dados do segundo semestre da faculdade
+
 # Integrantes
 * Renan Fernandes Dantas
 * Mateus Augusto Santos Fernandes
-
-# Modelagem_Banco_de_Dados
-Repositório para a entrega das atividades da matéria de Modelagem de Banco de Dados do segundo semestre da faculdade
 
 # Entrega 1 — Modelo Conceitual
 
