@@ -82,7 +82,7 @@ As carteiras identificadas no levantamento são **Neon, Itapeva, CredAtivos e Kr
 * Início -> Cadastro de Cliente -> Abertura de Processo -> Elaboração de Petição -> Audiência/Prazo -> Acompanhamento Processual -> Fim;
 * Início -> Processo/Negociação -> Lançamento Financeiro -> Pagamento -> Atualização das pendências -> Fim.
 
-**Os fluxogramas estão anexados como imagens no repositório do GitHub.**
+**Os fluxogramas estão também anexados como imagens no repositório do GitHub.**
 
 ---
 
