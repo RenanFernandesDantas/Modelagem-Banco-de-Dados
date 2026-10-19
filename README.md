@@ -13,7 +13,7 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
 ## 1. Caracterização da Organização
 
 * **Nome e natureza da organização:**
-  Escritório Jurídico com fins lucrativos, atuante na prestação de serviços jurídicos e também na recuperação de crédito para empresas parceiras.
+  Araujo & Augusto Advogados e Associados. Escritório Jurídico com fins lucrativos, atuante na prestação de serviços jurídicos e também na recuperação de crédito para empresas parceiras.
 
 * **Contexto e porte:**
   A organização possui mais de 80 funcionários, associados e negociadores envolvidos nas atividades administrativas, jurídicas e de recuperação de crédito. Entre suas atividades estão o gerenciamento de clientes e processos judiciais, acompanhamento de prazos, elaboração de documentos jurídicos, negociação de dívidas e registro de pagamentos.
