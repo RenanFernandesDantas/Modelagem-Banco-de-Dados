@@ -36,7 +36,7 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
   * Endereço: R. Serra de Botucatu, 660 - 11º Andar - Tatuapé, São Paulo - SP, 03317-000
   * Telefone: (11) 3939-0844
   * Site: https://www.araujoeaugusto.com.br/
-  * Identificação do responsável que forneceu as informações: +55 11 94367-2968
+  * Identificação do responsável que forneceu as informações: Andrei Matheus Pérgoli Ribeiro, Supervisor, +55 11 94367-2968
 
 ---
 
