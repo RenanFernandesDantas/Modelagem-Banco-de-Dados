@@ -204,11 +204,15 @@ Os honorários deverão estar vinculados a um processo ou a uma negociação.
 
 ### Restrições organizacionais
 
-A organização trabalha com informações jurídicas, financeiras e dados pessoais de clientes e devedores. Dessa forma, o sistema deverá considerar restrições de acesso e integridade dos dados.
+A organização analisada é uma empresa do segmento de recuperação de crédito e serviços jurídicos, com mais de 80 colaboradores. Sua atuação envolve o gerenciamento de carteiras de clientes e devedores, negociação de dívidas, acompanhamento de pagamentos e tratamento de processos judiciais.
 
-Além disso, as operações devem respeitar a dependência existente entre as entidades. Por exemplo, um devedor depende de uma carteira para seu cadastro, uma negociação depende da existência de uma dívida ativa e um processo depende da existência de um cliente.
+Entre as principais carteiras atendidas pela organização estão **Neon, Itapeva, CredAtivos e Kroton**, que possuem demandas relacionadas à cobrança e recuperação de créditos. Para realizar essas atividades, a organização conta com equipes responsáveis pelo atendimento, negociação, acompanhamento financeiro e tratamento das demandas jurídicas.
 
-Essas restrições são importantes porque evitam registros sem contexto e garantem que as informações armazenadas representem os processos reais da organização.
+Durante a rotina operacional, são realizadas atividades como o cadastro e acompanhamento de devedores, consulta de dívidas, criação de negociações, registro de acordos e pagamentos, além do acompanhamento de processos, petições e audiências. Por exemplo, quando um devedor possui uma dívida ativa, a equipe pode registrar uma negociação e, após a formalização do acordo, acompanhar os pagamentos realizados. No setor jurídico, os processos precisam estar vinculados aos respectivos clientes e as petições devem estar relacionadas aos processos existentes.
+
+A ausência de um sistema integrado para organizar essas informações pode dificultar o controle das carteiras, gerar duplicidade ou inconsistência de dados e tornar mais trabalhoso o acompanhamento das negociações, pagamentos e processos judiciais. Por esse motivo, torna-se necessário estruturar as informações de forma organizada, garantindo que cada registro esteja relacionado às entidades correspondentes.
+
+As informações utilizadas para esta caracterização foram obtidas por meio de informações fornecidas por um colaborador da organização, permitindo compreender de forma mais concreta os processos e necessidades envolvidos nas atividades da organização.
 
 ---
 
