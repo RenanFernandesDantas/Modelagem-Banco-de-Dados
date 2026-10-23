@@ -220,40 +220,86 @@ As alterações e movimentações relevantes dos processos, negociações e info
 
 ### Regras operacionais
 
-**RN01 — Cadastro de Carteira:**
-Uma carteira somente poderá ser criada caso exista contrato ativo com o respectivo parceiro.
+**RN01 — Cadastro de Carteira:** Uma carteira somente poderá ser cadastrada caso exista contrato ativo entre o escritório e o respectivo credor/parceiro.
 
-**RN02 — Cadastro de Devedor:**
-Um devedor somente poderá ser cadastrado quando estiver vinculado a uma carteira.
+**RN02 — Cadastro de Devedor:** Um devedor somente poderá ser cadastrado quando estiver vinculado a uma carteira ativa de recuperação de crédito.
 
-**RN03 — Negociação:**
-Uma negociação somente poderá ser criada para um devedor que possua uma dívida ativa.
+**RN03 — Negociação:** Uma negociação somente poderá ser criada para um devedor que possua uma dívida ativa registrada no sistema.
 
-**RN04 — Pagamento:**
-Um pagamento somente poderá ser registrado após a existência de um acordo formal.
+**RN04 — Pagamento:** Um pagamento somente poderá ser registrado quando existir um acordo formalizado e vinculado à respectiva negociação.
 
-**RN05 — Relatórios:**
-Os relatórios deverão permitir a consolidação das informações por carteira e equipe.
+**RN05 — Relatórios por Carteira e Equipe:** Os relatórios deverão permitir a consolidação das informações por carteira, equipe, período e situação das negociações, facilitando o acompanhamento dos resultados.
 
-**RN06 — Abertura de Processo:**
-Um processo judicial somente poderá ser aberto quando houver um cliente previamente cadastrado.
+**RN06 — Abertura de Processo:** Um processo judicial somente poderá ser aberto quando houver um cliente previamente cadastrado e vinculado ao processo.
 
-**RN07 — Petição:**
-Uma petição deverá estar vinculada a um processo existente.
+**RN07 — Petição:** Uma petição deverá estar obrigatoriamente vinculada a um processo judicial existente.
 
-**RN08 — Audiência:**
-Uma audiência somente poderá ser agendada quando não houver conflito de agenda da equipe responsável.
+**RN08 — Audiência:** Uma audiência somente poderá ser agendada quando houver disponibilidade de agenda do responsável e não existir conflito de horário com outra audiência ou compromisso registrado.
 
-**RN09 — Honorários:**
-Os honorários deverão estar vinculados a um processo ou a uma negociação.
+**RN09 — Honorários:** Os honorários deverão estar vinculados a um processo, cliente ou negociação, permitindo identificar sua origem e situação financeira.
 
-### Restrições organizacionais
+**RN10 — Limite de Desconto:** Os descontos concedidos em uma negociação deverão respeitar os limites e critérios definidos pelo respectivo credor/parceiro, não podendo o negociador ultrapassar sua alçada de autorização.
 
-A organização trabalha com informações jurídicas, financeiras e dados pessoais de clientes e devedores. Dessa forma, o sistema deverá considerar restrições de acesso e integridade dos dados.
+**RN11 — Parcelamento:** A quantidade de parcelas e as condições de pagamento deverão respeitar os limites estabelecidos para cada carteira ou pelo respectivo credor/parceiro.
 
-Além disso, as operações devem respeitar a dependência existente entre as entidades. Por exemplo, um devedor depende de uma carteira para seu cadastro, uma negociação depende da existência de uma dívida ativa e um processo depende da existência de um cliente.
+**RN12 — Comissão e Repasse:** Os valores recuperados deverão permitir a identificação do valor destinado ao credor, da comissão ou remuneração devida ao escritório e do respectivo repasse, conforme as condições estabelecidas no contrato com cada parceiro.
 
-Essas restrições são importantes porque evitam registros sem contexto e garantem que as informações armazenadas representem os processos reais da organização.
+**RN13 — Contas e Despesas:** Custas, despesas processuais e demais valores relacionados aos processos deverão ser registrados separadamente dos honorários e dos valores recuperados em negociações.
+
+**RN14 — Responsabilidade pelo Processo:** Cada processo deverá possuir um responsável definido, sendo que a atuação jurídica deverá ser atribuída a profissional habilitado quando a atividade exigir atuação privativa de advogado.
+
+**RN15 — Atribuição de Equipe:** Cada atividade ou processo deverá possuir uma equipe ou responsável definido, permitindo identificar quem é responsável pelo acompanhamento e atualização das informações.
+
+---
+
+### Restrições legais e organizacionais
+
+**RO01 — Proteção de Dados Pessoais (LGPD):** Os dados pessoais de clientes, devedores, funcionários e demais envolvidos deverão ser coletados, armazenados e utilizados somente para finalidades relacionadas às atividades da organização, respeitando os princípios e requisitos aplicáveis da Lei Geral de Proteção de Dados (Lei nº 13.709/2018).
+
+**RO02 — Controle de Acesso:** O acesso às informações deverá ser compatível com a função desempenhada pelo usuário. Informações jurídicas, financeiras e dados pessoais não deverão estar disponíveis indiscriminadamente para todos os usuários do sistema.
+
+**RO03 — Sigilo Profissional:** Informações obtidas em razão da relação profissional com clientes deverão ser protegidas por sigilo, sendo o acesso e compartilhamento dessas informações restritos às pessoas autorizadas e às finalidades relacionadas ao serviço prestado.
+
+**RO04 — Cobrança de Dívidas:** Os contatos realizados com devedores deverão respeitar as limitações legais aplicáveis à cobrança de dívidas, sendo vedadas práticas que exponham o devedor ao ridículo, constrangimento ou ameaça, conforme previsto no Código de Defesa do Consumidor.
+
+**RO05 — Horários de Contato:** Os contatos de cobrança deverão respeitar os horários e procedimentos definidos pela organização e os limites estabelecidos pela legislação aplicável, evitando abordagens abusivas ou inadequadas.
+
+**RO06 — Prazos Processuais:** Os prazos relacionados aos processos judiciais deverão ser registrados e acompanhados no sistema, considerando as regras de contagem de prazos processuais previstas na legislação processual aplicável, especialmente no Código de Processo Civil (CPC).
+
+**RO07 — Responsabilidade Jurídica:** Atividades que dependam de habilitação profissional deverão ser realizadas ou supervisionadas por profissional legalmente habilitado, especialmente nos casos que envolvam atos privativos da advocacia.
+
+**RO08 — Integridade dos Dados:** O sistema deverá impedir a criação de registros que dependam de entidades inexistentes. Por exemplo, uma negociação não poderá existir sem um devedor e uma dívida correspondente, assim como um pagamento não poderá existir sem uma negociação ou acordo previamente registrado.
+
+**RO09 — Histórico das Operações:** Alterações relevantes em processos, negociações, pagamentos e demais registros deverão manter informações suficientes para identificar a operação realizada, permitindo rastreabilidade e acompanhamento das atividades.
+
+---
+
+### Relação entre as regras e os processos
+
+| Processo | Principais regras relacionadas |
+|----------|--------------------------------|
+| Cadastro de clientes | RN06, RN14, RO01, RO02 e RO03 |
+| Contrato de honorários | RN09, RO01 e RO03 |
+| Abertura de processo | RN06 e RN14 |
+| Elaboração de petições | RN07 e RN14 |
+| Controle de prazos | RO06 e RN15 |
+| Audiências | RN08, RN14 e RN15 |
+| Movimentações processuais | RN06, RN14, RN15, RO06 e RO09 |
+| Cadastro de carteiras | RN01 e RO09 |
+| Cadastro de devedores | RN02, RO01 e RO02 |
+| Contato com devedores | RO04, RO05 e RO01 |
+| Negociação e acordo | RN03, RN10, RN11 e RO01 |
+| Registro de pagamentos | RN04, RN12 e RO09 |
+| Repasse ao credor | RN12 e RO09 |
+| Comissão do escritório | RN12 e RN09 |
+| Relatórios por carteira/equipe | RN05, RN15 e RO09 |
+| Honorários e pendências | RN09 e RO09 |
+| Custas e despesas processuais | RN13 e RO09 |
+| Gestão da equipe | RN14, RN15 e RO02 |
+
+### Observação sobre as regras legais
+
+As regras relacionadas à LGPD, Código de Defesa do Consumidor, Código de Processo Civil e exercício da advocacia foram incluídas como restrições gerais.
 
 ---
 
