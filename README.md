@@ -10,28 +10,73 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
 
 # Entrega 1 — Modelo Conceitual
 
-## 1. Caracterização da Organização
+# 1. Caracterização da Organização
 
-* **Nome e natureza da organização:**
-  Araujo & Augusto Advogados e Associados. Escritório Jurídico com fins lucrativos, atuante na prestação de serviços jurídicos e também na recuperação de crédito para empresas parceiras.
+## Nome e natureza da organização
 
-* **Contexto e porte:**
-  A organização possui mais de 80 funcionários, associados e negociadores envolvidos nas atividades administrativas, jurídicas e de recuperação de crédito. Entre suas atividades estão o gerenciamento de clientes e processos judiciais, acompanhamento de prazos, elaboração de documentos jurídicos, negociação de dívidas e registro de pagamentos.
+A **Araujo & Augusto Advogados e Associados** é um escritório jurídico com fins lucrativos, atuante na prestação de serviços jurídicos e na recuperação de crédito para empresas parceiras.
 
-  Na área de recuperação de crédito, são trabalhadas diferentes carteiras de clientes/parceiros, incluindo **Neon, Itapeva, CredAtivos e Kroton**.
+A organização possui atividades relacionadas ao acompanhamento de processos judiciais, atendimento e gerenciamento de clientes, elaboração de documentos jurídicos e recuperação de valores em aberto.
 
-* **Problemas e necessidades identificados:**
-  Foi identificada uma falta de integração entre o controle de processos jurídicos, clientes e informações financeiras. Atualmente, parte dessas informações é administrada por meio de planilhas e documentos separados, dificultando a centralização dos dados e o acompanhamento das atividades.
+## Contexto e porte
 
-  Essa fragmentação pode dificultar o controle de processos, documentos, pagamentos, negociações, prazos e informações relacionadas aos clientes e devedores.
+A organização possui mais de 80 funcionários, associados e negociadores, distribuídos entre atividades administrativas, jurídicas e de recuperação de crédito.
 
-* **Justificativa da escolha:**
-  O escritório foi escolhido por apresentar uma quantidade significativa de processos e informações que precisam ser administradas. A existência de diferentes áreas, como a jurídica, administrativa, financeira e de recuperação de crédito, torna a organização um caso adequado para a modelagem de um sistema de gerenciamento de informações.
+Entre as principais atividades realizadas estão:
 
-  A variedade de processos também permite identificar diferentes entidades, atributos, relacionamentos e regras de negócio, possibilitando a construção de um modelo conceitual que possa ser expandido nas próximas etapas do projeto.
+- Gerenciamento de clientes e processos judiciais;
+- Acompanhamento de prazos;
+- Elaboração e organização de documentos;
+- Negociação de dívidas;
+- Registro e acompanhamento de pagamentos.
 
-* **Evidências da organização:**
-  Esta seção deverá ser complementada pelo grupo com evidências obtidas durante a pesquisa de campo, como:
+Na área de recuperação de crédito, o escritório trabalha com diferentes carteiras de clientes e empresas parceiras, incluindo:
+
+- **Neon**
+- **Itapeva**
+- **CredAtivos**
+- **Kroton**
+
+Cada carteira envolve o acompanhamento de informações de clientes/devedores, valores pendentes, negociações realizadas, pagamentos e demais registros relacionados à recuperação de crédito.
+
+## Problemas e necessidades identificados
+
+Durante a análise da rotina da organização, foi identificada a existência de informações distribuídas entre **planilhas, documentos e diferentes controles utilizados pelas áreas**.
+
+Por exemplo, informações relacionadas a clientes, processos, negociações e pagamentos podem estar registradas em controles distintos, tornando necessário consultar diferentes arquivos para obter uma visão completa de determinado caso.
+
+Essa forma de organização pode dificultar a localização e atualização das informações, principalmente quando é necessário acompanhar simultaneamente:
+
+- Dados de um cliente;
+- Situação de um processo;
+- Valores negociados;
+- Pagamentos realizados;
+- Prazos;
+- Documentos relacionados.
+
+Dessa forma, foi identificada a necessidade de centralizar e integrar essas informações em um sistema de gerenciamento, facilitando o acesso aos dados e o acompanhamento das atividades.
+
+## Justificativa da escolha
+
+A Araujo & Augusto Advogados e Associados foi escolhida pelo grupo devido à quantidade e variedade de informações gerenciadas diariamente, envolvendo processos jurídicos, clientes, documentos, negociações e pagamentos.
+
+Um dos integrantes do grupo **trabalha na organização**, o que influenciou diretamente na escolha da empresa para o desenvolvimento do projeto. A experiência desse integrante com a rotina da organização possibilitou ao grupo obter uma compreensão mais próxima das atividades realizadas, dos processos internos e das necessidades relacionadas ao gerenciamento das informações.
+
+Além disso, a atuação simultânea nas áreas jurídica, administrativa, financeira e de recuperação de crédito apresenta diferentes necessidades de controle e relacionamento entre informações.
+
+A organização também foi escolhida por permitir a identificação de diversas entidades, atributos, relacionamentos e regras de negócio, possibilitando a elaboração de um modelo conceitual de banco de dados que represente parte de sua rotina e que possa ser ampliado nas próximas etapas do projeto.
+
+## Forma de acesso à organização
+
+O grupo teve acesso às informações da organização por meio de um dos integrantes, que **é funcionário da Araujo & Augusto Advogados e Associados**. A atuação desse integrante na empresa facilitou o levantamento de informações sobre os processos e atividades realizadas no cotidiano da organização.
+
+A partir desse contato, foi possível compreender melhor a rotina das áreas envolvidas, incluindo as atividades jurídicas, administrativas e de recuperação de crédito, além dos tipos de informações que precisam ser registrados e acompanhados.
+
+As informações utilizadas no projeto foram coletadas para fins exclusivamente acadêmicos, não sendo expostos dados pessoais, informações financeiras de clientes, documentos sigilosos ou quaisquer outros dados confidenciais da organização.
+
+## Evidências da organização
+
+Como evidências da pesquisa realizada, seguem:
 
   * Endereço: R. Serra de Botucatu, 660 - 11º Andar - Tatuapé, São Paulo - SP, 03317-000
   * Telefone: (11) 3939-0844
