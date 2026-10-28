@@ -6,7 +6,7 @@ Repositório para a entrega das atividades da matéria de Modelagem de Banco de 
 * Mateus Augusto Santos Fernandes / RGM: 48018775 / https://github.com/MateusFernandes0
 * Guilherme Andrade Janas / RGM: 47831987 / https://github.com/guilhermejanas-boop
 * Matheus de Oliveira Santos / RGM: 48065587 / https://github.com/matheus-coder987
-* Gustavo Oliveira da Silva Gomes / RGM: 48066702
+* Gustavo Oliveira da Silva Gomes / RGM: 48066702 / https://github.com/GustavoGomesssss
 
 # Entrega 1 — Modelo Conceitual
 
