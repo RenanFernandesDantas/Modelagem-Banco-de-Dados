@@ -2,10 +2,10 @@
 Repositório para a entrega das atividades da matéria de Modelagem de Banco de Dados do segundo semestre da faculdade
 
 # Integrantes
-* Renan Fernandes Dantas / RGM: 47881416
-* Mateus Augusto Santos Fernandes / RGM: 48018775
-* Guilherme Andrade Janas / RGM: 47831987
-* Matheus de Oliveira Santos / RGM: 48065587
+* Renan Fernandes Dantas / RGM: 47881416 / https://github.com/RenanFernandesDantas
+* Mateus Augusto Santos Fernandes / RGM: 48018775 / https://github.com/MateusFernandes0
+* Guilherme Andrade Janas / RGM: 47831987 / https://github.com/guilhermejanas-boop
+* Matheus de Oliveira Santos / RGM: 48065587 / https://github.com/matheus-coder987
 * Gustavo Oliveira da Silva Gomes / RGM: 48066702
 
 # Entrega 1 — Modelo Conceitual
