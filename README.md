@@ -392,11 +392,15 @@ O DER representa as entidades, seus atributos, relacionamentos e respectivas car
 * Processo
 * Equipe
 * Documento
-* Financeiro
+* Pagamento
 * Carteira
 * Devedor
 * Negociação
 * Contato
+
+| Apontamento da correção da E1 | O que mudou no trabalho? | Por quê? |
+|-------------------------------|--------------------------|----------|
+| Nenhuma das entidade tinha atributo ou identificador | Foram adicionados entidades e identificadores | Pois sem eles, além do diagrama estar incompleto, não seria possível montar o modelo lógico
 
 **O DER está anexado ao repositório como imagem.**
 
