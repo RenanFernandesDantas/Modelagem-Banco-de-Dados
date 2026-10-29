@@ -400,7 +400,9 @@ O DER representa as entidades, seus atributos, relacionamentos e respectivas car
 
 | Apontamento da correção da E1 | O que mudou no trabalho? | Por quê? |
 |-------------------------------|--------------------------|----------|
-| Nenhuma das entidade tinha atributo ou identificador | Foram adicionados entidades e identificadores | Pois sem eles, além do diagrama estar incompleto, não seria possível montar o modelo lógico
+| Nenhuma das entidade tinha atributo ou identificador | Foram adicionados entidades e identificadores | Pois sem eles, além do diagrama estar incompleto, não seria possível montar o modelo lógico |
+| Cardinalidades repetidas em todos relacionamentos | Correção das cardinalidades | Agora com as cardinalidades corretas o entendimento sobre o modelo conceitual se torna correta e de mais fácil entendimento |
+| Financeiro aparece duas vezes | Financeiro agora aparece apenas uma vez | Pois uma entidade não pode aparecer duas vezes no diagrama | 
 
 **O DER está anexado ao repositório como imagem.**
 
