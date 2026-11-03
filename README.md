@@ -65,19 +65,16 @@ Um dos integrantes do grupo trabalha na organização. Esse vínculo facilitou o
 - **Site:** https://www.araujoeaugusto.com.br/
 - **Responsável informado:** Andrei Matheus Pérgoli Ribeiro, Supervisor.
 - **Telefone do responsável:** +55 11 94367-2968.
-- **Perfil no Google Business Profile:** [Adicionar link do perfil, se disponível].
-- **Fotos JPG ou PNG da organização/visita:** [Adicionar os arquivos e links relativos no repositório].
 
 #### Relato da entrevista
 
 O acesso às informações da organização ocorreu por meio de um integrante que trabalha na Araujo & Augusto Advogados e Associados. O levantamento permitiu compreender atividades das áreas jurídica, administrativa e de recuperação de crédito, além dos tipos de informações que precisam ser registrados e acompanhados.
 
 - **Entrevistado:** Andrei Matheus Pérgoli Ribeiro, Supervisor.
-- **Integrantes participantes:** [Informar os integrantes que participaram].
+- **Integrantes participantes:** Mateus Augusto Santos Fernandes.
 - **Data e local da entrevista:** [Informar a data e confirmar o local da entrevista].
 - **Observações presenciais:** [Descrever o que o grupo observou diretamente na rotina da organização].
 - **Respostas e informações fornecidas:** foram identificadas atividades de gerenciamento de clientes e processos, acompanhamento de prazos, elaboração de documentos, negociação de dívidas e registro de pagamentos.
-- **Comprovação:** [Adicionar ao repositório ao menos uma foto JPG ou PNG da entrevista realizada no ambiente da organização].
 - **Levantamento completo:** [Adicionar link para o arquivo Markdown do levantamento, preferencialmente `levantamento/levantamento.md`].
 
 As informações utilizadas no projeto têm finalidade acadêmica. Dados pessoais, informações financeiras de clientes, documentos sigilosos e outros dados confidenciais da organização não devem ser expostos.
@@ -113,13 +110,6 @@ As informações utilizadas no projeto têm finalidade acadêmica. Dados pessoai
 - Geração de relatórios de desempenho.
 
 As carteiras identificadas no levantamento são Neon, Itapeva, CredAtivos e Kroton.
-
-**Fluxos resumidos dos processos**
-- Início → Cadastro de Carteira → Cadastro de Devedor → Contato → Negociação → Pagamento → Fim;
-- Início → Cadastro de Cliente → Abertura de Processo → Elaboração de Petição → Audiência/Prazo → Acompanhamento Processual → Fim;
-- Início → Processo/Negociação → Lançamento Financeiro → Pagamento → Atualização das pendências → Fim.
-
-[Adicionar links para os fluxogramas/imagens existentes no repositório.]
 
 **Processos típicos não incluídos**
 
@@ -214,11 +204,8 @@ As regras relacionadas à LGPD, ao Código de Defesa do Consumidor, ao Código d
 
 #### DER conceitual revisado
 
-O DER deve representar as entidades, atributos, relacionamentos e cardinalidades conforme a notação do brModelo. O grupo informa que o diagrama está anexado ao repositório.
-
-- **Software utilizado:** [Informar o software utilizado para criar o DER].
-- **Diagrama:** [Adicionar link relativo para a imagem/arquivo do DER revisado].
-- **Dicionário conceitual:** [Adicionar link para o arquivo HTML existente, se ainda fizer parte dos artefatos solicitados].
+- **Software utilizado:** brModelo.
+- **Diagrama:** foto anexada no repositório.
 
 **Apontamentos da correção da Entrega 1**
 
@@ -227,8 +214,6 @@ O DER deve representar as entidades, atributos, relacionamentos e cardinalidades
 | As entidades não tinham atributos ou identificadores. | Foram adicionados atributos e identificadores às entidades. | Sem eles, o diagrama fica incompleto e não permite elaborar adequadamente o modelo lógico. |
 | As cardinalidades estavam repetidas em todos os relacionamentos. | As cardinalidades foram revistas. | Para representar corretamente as relações entre as entidades. |
 | A entidade Financeiro aparecia duas vezes. | A entidade Financeiro passou a aparecer uma única vez. | Para evitar duplicidade da mesma entidade no diagrama. |
-
-[Conferir a correção original da Entrega 1 e acrescentar todos os apontamentos do professor que ainda não estejam registrados nesta tabela.]
 
 ### 1.2 Conversão do Modelo Conceitual para o Modelo Lógico
 
@@ -290,7 +275,7 @@ O diagrama deve apresentar todas as tabelas, colunas e tipos de dados, chaves pr
 ## 3. Script SQL Completo
 
 - **SGBD:** MySQL.
-- **Arquivo do script:** [Adicionar link para o arquivo `.sql`, por exemplo `docs/script.sql`].
+- **Arquivo do script:** anexado no repositório.
 
 O script deve conter, nesta ordem lógica: criação do banco de dados, criação das tabelas, constraints, inserções da massa de dados, consultas `SELECT` com `JOIN`, `UPDATE`, `DELETE`, consultas gerenciais (G01, G02...) e consultas de auditoria (A01, A02...).
 
@@ -300,35 +285,14 @@ Cada consulta gerencial deve indicar a pergunta respondida e o problema/KPI aten
 
 ## 4. Massa de Dados
 
-- **Arquivo:** [Informar se a massa está no script principal ou adicionar link para o arquivo `.sql` separado].
-- **Natureza dos dados:** a massa deve ser fictícia, sem dados pessoais ou financeiros reais de clientes ou envolvidos.
+- **Arquivo:** a massa de dados se encontra no script.
+- **Natureza dos dados:** a massa é fictícia, sem dados pessoais ou financeiros reais de clientes ou envolvidos.
 - **Justificativa do volume:** [Explicar como os números reais da organização justificam a quantidade de registros de cada tabela].
 - **Variedade dos registros:** [Descrever como a massa contempla situações como negociações canceladas, pagamentos, pendências, diferentes carteiras e períodos, conforme aplicável].
-- **Validação:** [Confirmar que os registros são consistentes e permitem executar as consultas gerenciais e de auditoria].
 
 ---
 
-## 5. Repositório GitHub
-
-O repositório deve conter os seguintes artefatos:
-
-| Artefato | Arquivo/localização |
-| :---- | :---- |
-| Relatório Técnico Final | `README.md` (este arquivo) |
-| Dicionário de Dados | [Adicionar link para o arquivo único exigido pela turma: HTML ou Markdown, conforme orientação do professor] |
-| DER conceitual revisado | [Adicionar link para o diagrama] |
-| Modelo lógico relacional | [Adicionar link para o diagrama] |
-| Levantamento e entrevista | [Adicionar link para `levantamento/levantamento.md`] |
-| Evidências da organização e entrevista | [Adicionar links para imagens JPG ou PNG armazenadas no repositório] |
-| Script SQL completo | [Adicionar link para o arquivo `.sql`] |
-| Massa de dados separada (se aplicável) | [Adicionar link para o arquivo `.sql`] |
-| Slides da apresentação | [Adicionar link para os slides] |
-
-O histórico de commits deve demonstrar o desenvolvimento ao longo do tempo e a participação equilibrada dos integrantes, com commits realizados pelas próprias contas GitHub de cada membro.
-
----
-
-## 6. Uso de Inteligência Artificial
+## 5. Uso de Inteligência Artificial
 
 Durante a elaboração da Entrega 1, o grupo utilizou o **ChatGPT** como ferramenta de apoio à organização das informações e à compreensão de conceitos relacionados ao projeto. A IA não foi utilizada para elaborar o DER ou definir as entidades, atributos, relacionamentos e cardinalidades do modelo. Essas decisões foram realizadas pelo próprio grupo a partir das informações levantadas sobre a organização.
 
@@ -351,31 +315,8 @@ O ChatGPT foi utilizado para explicar conceitos relacionados ao Diagrama Entidad
 
 Esse auxílio teve caráter didático e explicativo. A IA não elaborou o DER final, não definiu as entidades do modelo e não determinou as cardinalidades utilizadas pelo grupo. A construção do modelo foi realizada pelos integrantes com base no levantamento dos processos e regras de negócio da organização.
 
-### Organização do arquivo HTML do Dicionário de Dados
-
-O ChatGPT também foi utilizado como apoio na organização do arquivo HTML do Dicionário de Dados. A ferramenta auxiliou na estruturação e organização visual das informações já levantadas pelo grupo, contribuindo para uma apresentação mais organizada e padronizada.
-
 A IA foi utilizada como apoio à formatação e organização do conteúdo, e não para definir quais informações deveriam fazer parte do dicionário. Os dados e atributos foram definidos a partir do levantamento realizado pelo grupo.
 
 ### Usos de IA na Entrega 2
 
 [Registrar aqui cada uso de IA realizado na Entrega 2, incluindo ferramenta e etapa, motivação, prompt(s), resposta recebida, fontes consultadas e verificadas, trechos rejeitados ou corrigidos, justificativa da escolha final e reflexão crítica. Se não houver uso de IA em alguma etapa, declarar isso explicitamente.]
-
----
-
-## 7. Apresentação Corporativa Final
-
-- **Duração:** 8 minutos.
-- **Slides:** [Adicionar link para a apresentação].
-
-A apresentação deverá seguir esta ordem:
-
-1. Contextualização do problema institucional/organizacional solucionado;
-2. Apresentação da solução proposta;
-3. Apresentação do modelo lógico;
-4. Demonstração da implementação (SQL em execução);
-5. Demonstração das consultas gerenciais e de auditoria;
-6. Potencial para BI e IA;
-7. Benefícios diretos para a tomada de decisão da organização.
-
-Todos os integrantes deverão estar presentes e participar da apresentação e da defesa do modelo lógico. Cada pergunta deverá ser respondida pelo aluno a quem for dirigida.
