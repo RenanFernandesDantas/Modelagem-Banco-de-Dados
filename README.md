@@ -270,16 +270,16 @@ As regras relacionadas à LGPD, ao Código de Defesa do Consumidor, ao Código d
 
 O diagrama apresenta todas as tabelas, colunas e tipos de dados, chaves primárias (PK), chaves estrangeiras (FK).
 
-**Observação:** as cardinalidades do modelo lógico não puderam ser editadas por complicações com o site, seguem as cardinalidades corretas:
+- **Observação:** as cardinalidades do modelo lógico não puderam ser editadas por complicações com o site, seguem as cardinalidades corretas:
 
-- Equipe (1,1)---(0,n) Processo
-- Equipe (1,1)---(1,1) Carteira
-- Processo (0,n)---(1,1) Cliente
-- Processo (0,1)---(1,n) Documento
-- Carteira (1,n)---(1,n) Devedor
-- Devedor (1,1)---(1,n) Contato
-- Devedor (1,1)---(0,n) Negociação
-- Negociação (1,1)---(1,n) Pagamento
+  - Equipe (1,1)---(0,n) Processo
+  - Equipe (1,1)---(1,1) Carteira
+  - Processo (0,n)---(1,1) Cliente
+  - Processo (0,1)---(1,n) Documento
+  - Carteira (1,n)---(1,n) Devedor
+  - Devedor (1,1)---(1,n) Contato
+  - Devedor (1,1)---(0,n) Negociação
+  - Negociação (1,1)---(1,n) Pagamento
 
 ---
 
