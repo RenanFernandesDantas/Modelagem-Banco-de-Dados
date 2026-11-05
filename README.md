@@ -225,43 +225,68 @@ As regras relacionadas à LGPD, ao Código de Defesa do Consumidor, ao Código d
 
 ### 1.4 Processo de Normalização (1FN, 2FN e 3FN)
 
-- **1FN:** [Explicar como foram eliminados grupos repetitivos e atributos multivalorados.]
-- **2FN:** [Explicar como foram eliminadas dependências parciais.]
-- **3FN:** [Explicar como foram eliminadas dependências transitivas.]
-- **Justificativa:** [Explicar por que as formas normais foram necessárias neste modelo.]
+- **1FN:** Nenhuma tabela tem coluna com lista de valores nem colunas repetidas do tipo telefone1/telefone2. Os advogados de um processo não ficam dentro de `Processo`: o vínculo está em `Processo_Equipe`, com uma linha por advogado. As tentativas de contato com um devedor não ficam em `Devedor`, e sim em `Contato`, com uma linha por tentativa (meio, data e resultado). Os arquivos de um processo também têm uma linha cada em `Documento`. Todas as tabelas têm chave primária e as colunas guardam valores atômicos. O endereço foi mantido como um único texto por simplificação.
+  
+- **2FN:** Só `Processo_Equipe` tem chave primária composta (`id_processo`, `id_advogado`). A única coluna que não é chave é `papel`, e ela depende do par inteiro: o mesmo advogado pode ser Responsavel num processo e Apoio em outro. Nome, OAB e função do advogado, que dependeriam só de `id_advogado`, ficam em `Equipe`. Os dados do processo ficam em `Processo`. As outras nove tabelas têm chave simples, então não existe dependência parcial.
+  
+- **3FN:** os dados descritivos ficam na tabela da entidade a que pertencem e as demais apontam por chave estrangeira. `Processo` guarda `id_cliente`, e não nome e CPF do cliente. `Devedor` guarda `id_carteira`, e não o nome da carteira nem o tipo de contrato. `Carteira` e `Negociacao` guardam `id_responsavel`, e não nome e OAB do responsável. Assim, corrigir o nome de um cliente é um único UPDATE em uma linha. Há uma exceção conhecida em `Financeiro`: `pendencias` poderia ser calculada como `honorarios - pagamentos`. A coluna foi mantida porque o modelo ainda não tem uma tabela `Pagamento`. Quando ela existir, pagamentos e pendências passam a ser calculados a partir dela.
+  
+- **Justificativa:** o problema do escritório é ter informações espalhadas e repetidas em planilhas (P1 e P2). Neste modelo, um cliente tem vários processos, um devedor tem vários contatos, um advogado atua em vários processos e uma carteira reúne muitos devedores. Sem normalizar, esses dados seriam copiados várias vezes, o que causa três anomalias. Na atualização, mudar o telefone de um cliente exigiria alterar várias linhas. Na inserção, não seria possível cadastrar um advogado que ainda não tem processo. Na exclusão, apagar o último processo de um cliente faria o cadastro dele sumir. A normalização também sustenta as regras RN06 e RN07 (processo e petição sempre ligados a cliente e processo cadastrados) e a integridade referencial (RNF03 e RO08).
 
 ### 1.5 Justificativas Técnicas das Decisões
 
-[Justificar as chaves primárias, chaves estrangeiras, relacionamentos, restrições de integridade e decisões arquiteturais. Relacionar cada restrição à regra de negócio correspondente (RNxx), quando aplicável.]
+### 1.3 Definição de Chaves Primárias e Estrangeiras
+
+| Tabela | Chave primária (PK) | Chaves estrangeiras (FK) | Chaves únicas (UQ) |
+| :-- | :-- | :-- | :-- |
+| `Cliente` | `id_cliente` | nenhuma | `cpf_cnpj` |
+| `Equipe` | `id_advogado` | nenhuma | `oab` |
+| `Processo` | `id_processo` | `id_cliente` → `Cliente` (UPDATE CASCADE, DELETE RESTRICT) | nenhuma |
+| `Processo_Equipe` | (`id_processo`, `id_advogado`) | `id_processo` → `Processo` (CASCADE, CASCADE); `id_advogado` → `Equipe` (CASCADE, RESTRICT) | nenhuma |
+| `Documento` | `id_documento` | `id_processo` → `Processo` (CASCADE, RESTRICT) | nenhuma |
+| `Carteira` | `id_carteira` | `id_responsavel` → `Equipe` (CASCADE, SET NULL) | nenhuma |
+| `Devedor` | `id_devedor` | `id_carteira` → `Carteira` (CASCADE, RESTRICT) | `cpf_cnpj` |
+| `Contato` | `id_contato` | `id_devedor` → `Devedor` (CASCADE, RESTRICT) | nenhuma |
+| `Negociacao` | `id_negociacao` | `id_devedor` → `Devedor` (CASCADE, RESTRICT); `id_responsavel` → `Equipe` (CASCADE, SET NULL) | nenhuma |
+| `Financeiro` | `id_financeiro` | `id_processo` → `Processo` (RESTRICT, RESTRICT); `id_negociacao` → `Negociacao` (RESTRICT, RESTRICT) | nenhuma |
+
+As chaves primárias simples são `INT UNSIGNED AUTO_INCREMENT`. Em `Carteira.id_responsavel`, `Negociacao.id_responsavel`, `Financeiro.id_processo` e `Financeiro.id_negociacao` a FK aceita nulo. Em `Financeiro`, o `CHECK` `ck_financeiro_origem` exige que pelo menos uma das duas esteja preenchida. Nas demais tabelas, as FKs são obrigatórias (`NOT NULL`). Em cada FK, a primeira ação entre parênteses é a de `ON UPDATE` e a segunda é a de `ON DELETE`.
 
 ### 1.6 Proposta de Arquitetura Analítica para BI e IA
 
 **Informações estratégicas**
 
-[Descrever quais informações podem apoiar a gestão do escritório.]
+A gestão do escritório precisa enxergar, num só lugar, o que hoje está em planilhas separadas (P1): quanto cada carteira já recuperou e quanto ainda deve, quais negociadores fecham mais acordos, quais processos estão parados ou perto do prazo (P2) e quais honorários estão pendentes por cliente. Os dados para isso já existem no modelo, em `Carteira`, `Devedor`, `Contato`, `Negociacao`, `Processo` e `Financeiro`.
 
 **Indicadores e métricas gerenciais (KPIs)**
 
-[Definir os KPIs, incluindo fórmula, período de apuração e, quando possível, meta.]
+| KPI | Fórmula | Período | Meta sugerida |
+| :-- | :-- | :-- | :-- |
+| KPI 1. Dívida por carteira e situação | número de devedores e soma de `Negociacao.valor_total` por carteira e `situacao_divida` | mensal | acompanhar a migração de `Ativa` para `Negociada` e `Quitada` |
+| KPI 2. Taxa de conversão em acordo | contatos com `resultado = 'Acordo fechado'` ÷ total de contatos × 100 | mensal, por carteira | a definir com o supervisor |
+| KPI 3. Percentual recuperado | `pagamentos` ÷ (`pagamentos` + `pendencias`) × 100, em `Financeiro` das negociações | mensal, por carteira | a definir com o supervisor |
+| KPI 4. Processos por responsável e status | contagem de `Processo` por advogado com `papel = 'Responsavel'` e por `status` | semanal | nenhum processo `Ativo` sem responsável |
+| KPI 5. Honorários pendentes a vencer | soma de `pendencias` dos lançamentos de processos, ordenada por `vencimento` | semanal | zero pendências vencidas |
 
 **Potencial dos dados para BI**
 
-[Explicar como as tabelas e os relacionamentos podem alimentar dashboards e relatórios.]
+Cada KPI sai de um JOIN simples entre tabelas ligadas por FK, então os dados podem alimentar um painel sem transformação prévia. As dimensões naturais são `Carteira`, `Equipe`, `Cliente`, `Processo.status` e `Devedor.situacao_divida`. Os fatos vêm de `Financeiro` (valores e vencimentos), `Contato` (data e resultado) e `Negociacao` (valor e datas). Um painel pode combinar, por exemplo, um gráfico de recuperação por carteira (G03), a taxa de acordo por carteira (G02) e uma lista de processos e honorários perto do vencimento (G04 e G05). Como `Contato.data` guarda a hora, também é possível analisar em que horário os contatos são feitos (RO05).
 
 **Aplicações analíticas e de IA**
 
-[Descrever possibilidades de análises preditivas, recomendações ou outras aplicações que possam utilizar os dados do modelo.]
+Com mais histórico, os dados permitiriam três usos. O primeiro é estimar a probabilidade de acordo de um devedor a partir do meio de contato, do número de tentativas e da carteira. O segundo é priorizar a fila de cobrança dos negociadores com base nessa estimativa e no valor da dívida. O terceiro é prever atraso de pagamento nos parcelamentos. Hoje a massa de dados tem poucos registros, então isso é uma proposta de evolução, e não algo que já possa ser treinado. Qualquer uso com dados reais exigiria cuidado com a LGPD (RO01).
 
 **Tabela de rastreabilidade**
 
 | Problema ou KPI | Tabelas envolvidas | Consulta no script |
-| :---- | :---- | :---- |
-| P1 — Informações descentralizadas | [Preencher] | [Código Gxx] |
-| P2 — Dificuldade de localização e atualização | [Preencher] | [Código Gxx] |
-| [KPI 1] | [Tabelas] | [Código Gxx] |
-| [KPI 2] | [Tabelas] | [Código Gxx] |
-
----
+| :-- | :-- | :-- |
+| P1. Informações descentralizadas | `Carteira`, `Devedor`, `Negociacao`, `Contato`, `Financeiro` 
+| P2. Dificuldade de localização e atualização | `Processo`, `Processo_Equipe`, `Equipe`, `Cliente`, `Financeiro` 
+| KPI 1. Dívida por carteira e situação | `Carteira`, `Devedor`, `Negociacao` 
+| KPI 2. Taxa de conversão em acordo | `Carteira`, `Devedor`, `Contato` 
+| KPI 3. Percentual recuperado | `Carteira`, `Devedor`, `Negociacao`, `Financeiro` 
+| KPI 4. Processos por responsável e status | `Processo`, `Processo_Equipe`, `Equipe` 
+| KPI 5. Honorários pendentes a vencer | `Cliente`, `Processo`, `Financeiro` 
 
 ## 2. Modelo Lógico Relacional
 
