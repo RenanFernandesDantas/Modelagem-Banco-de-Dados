@@ -265,10 +265,21 @@ As regras relacionadas à LGPD, ao Código de Defesa do Consumidor, ao Código d
 
 ## 2. Modelo Lógico Relacional
 
-- **Software utilizado:** [Informar o software utilizado para criar o modelo lógico].
-- **Diagrama do modelo lógico:** [Adicionar link relativo para o arquivo do diagrama].
+- **Software utilizado:** brModelo web.
+- **Diagrama do modelo lógico:** anexado no repositório.
 
-O diagrama deve apresentar todas as tabelas, colunas e tipos de dados, chaves primárias (PK), chaves estrangeiras (FK) e cardinalidades convertidas.
+O diagrama apresenta todas as tabelas, colunas e tipos de dados, chaves primárias (PK), chaves estrangeiras (FK).
+
+**Observação:** as cardinalidades do modelo lógico não puderam ser editadas por complicações com o site, seguem as cardinalidades corretas:
+
+- Equipe (1,1)---(0,n) Processo
+- Equipe (1,1)---(1,1) Carteira
+- Processo (0,n)---(1,1) Cliente
+- Processo (0,1)---(1,n) Documento
+- Carteira (1,n)---(1,n) Devedor
+- Devedor (1,1)---(1,n) Contato
+- Devedor (1,1)---(0,n) Negociação
+- Negociação (1,1)---(1,n) Pagamento
 
 ---
 
