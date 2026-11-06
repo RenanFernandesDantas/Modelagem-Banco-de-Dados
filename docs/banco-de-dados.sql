@@ -137,28 +137,28 @@ CREATE TABLE Negociacao (
     CONSTRAINT ck_negociacao_datas CHECK (data_fim IS NULL OR data_fim >= data_inicio)
 ) ENGINE=InnoDB;
 
-CREATE TABLE Financeiro (
-    id_financeiro  INT UNSIGNED   NOT NULL AUTO_INCREMENT,
-    id_processo    INT UNSIGNED   NULL,
-    id_negociacao  INT UNSIGNED   NULL,
-    honorarios     DECIMAL(12,2)  NOT NULL DEFAULT 0.00,
-    pagamentos     DECIMAL(12,2)  NOT NULL DEFAULT 0.00,
-    pendencias     DECIMAL(12,2)  NOT NULL DEFAULT 0.00,
-    vencimento     DATE           NOT NULL,
-    PRIMARY KEY (id_financeiro),
-    KEY idx_financeiro_processo (id_processo),
-    KEY idx_financeiro_negociacao (id_negociacao),
-    -- usadas em CHECK (erro 3823), e ck_financeiro_origem usa as duas colunas.
-    CONSTRAINT fk_financeiro_processo
+CREATE TABLE Pagamento (
+    id_pagamento     INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+    id_processo      INT UNSIGNED  NULL,
+    id_negociacao    INT UNSIGNED  NULL,
+    data_pagamento   DATE          NOT NULL,
+    valor_pago       FLOAT         NOT NULL,
+    forma_pagamento  ENUM('Dinheiro','PIX','Boleto','Cartao de credito','Cartao de debito','Transferencia') NOT NULL,
+    PRIMARY KEY (id_pagamento),
+    KEY idx_pagamento_processo (id_processo),
+    KEY idx_pagamento_negociacao (id_negociacao),
+    -- ON UPDATE/DELETE RESTRICT: o MySQL nao permite CASCADE/SET NULL em FKs
+    -- usadas em CHECK (erro 3823), e ck_pagamento_origem usa as duas colunas.
+    CONSTRAINT fk_pagamento_processo
         FOREIGN KEY (id_processo) REFERENCES Processo (id_processo)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT fk_financeiro_negociacao
+    CONSTRAINT fk_pagamento_negociacao
         FOREIGN KEY (id_negociacao) REFERENCES Negociacao (id_negociacao)
         ON UPDATE RESTRICT ON DELETE RESTRICT,
-    CONSTRAINT ck_financeiro_origem
+    CONSTRAINT ck_pagamento_origem
         CHECK (id_processo IS NOT NULL OR id_negociacao IS NOT NULL),
-    CONSTRAINT ck_financeiro_valores
-        CHECK (honorarios >= 0 AND pagamentos >= 0 AND pendencias >= 0)
+    CONSTRAINT ck_pagamento_valor
+        CHECK (valor_pago >= 0)
 ) ENGINE=InnoDB;
 
 
@@ -202,10 +202,9 @@ INSERT INTO Contato (id_devedor, meio, data, resultado) VALUES
 INSERT INTO Negociacao (id_devedor, id_responsavel, tipo, status, valor_total, data_inicio, data_fim) VALUES
  (2, 3, 'Parcelamento', 'Em andamento', 3000.00, '2026-10-25', NULL);
 
-INSERT INTO Financeiro (id_processo, id_negociacao, honorarios, pagamentos, pendencias, vencimento) VALUES
- (1,    NULL, 5000.00,    0.00, 5000.00, '2026-11-30'),
- (NULL, 1,     600.00, 1000.00, 2000.00, '2026-11-25');
- 
- select * from devedor 
+INSERT INTO Pagamento (id_processo, id_negociacao, data_pagamento, valor_pago, forma_pagamento) VALUES
+ (1,    NULL, '2026-11-05',  500.00, 'PIX'),
+ (NULL, 1,    '2026-10-25', 1000.00, 'Boleto');
+
+select * from devedor
 	where telefone is not null;
- 
