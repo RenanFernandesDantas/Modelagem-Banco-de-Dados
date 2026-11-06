@@ -448,7 +448,7 @@ O diagrama apresenta todas as tabelas, colunas e tipos de dados, chaves primári
 ## 3. Script SQL Completo
 
 - **SGBD:** MySQL **8.0.16 ou superior**. Em versões anteriores, os `CHECK` são lidos, mas ignorados, e as restrições `ck_*` deixam de valer.
-- **Arquivo do script:** anexado no repositório.
+- **Arquivo do script:** [Bacndo de Dados](docs/script.sql)
 - **Execução:** o script começa com `DROP DATABASE IF EXISTS escritorio_juridico` e recria tudo do zero.
 
 O script contém, nesta ordem lógica: criação do banco de dados, criação das tabelas e constraints, inserções da massa de dados, consultas `SELECT` com `JOIN` (J01 a J03), `UPDATE` (U01 a U03), `DELETE` (D01 e D02), consultas gerenciais (G01 a G03) e consultas de auditoria (A01 a A03). Os comentários de seção no script começam em "5.", porque as seções 1 a 4 correspondem ao banco, às tabelas e às inserções.
