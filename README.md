@@ -423,29 +423,128 @@ Cada consulta gerencial deve indicar a pergunta respondida e o problema/KPI aten
 
 ## 5. Uso de Inteligência Artificial
 
-Durante a elaboração da Entrega 1, o grupo utilizou o **ChatGPT** como ferramenta de apoio à organização das informações e à compreensão de conceitos relacionados ao projeto. A IA não foi utilizada para elaborar o DER ou definir as entidades, atributos, relacionamentos e cardinalidades do modelo. Essas decisões foram realizadas pelo próprio grupo a partir das informações levantadas sobre a organização.
+Durante o desenvolvimento do trabalho, o grupo utilizou o ChatGPT como ferramenta de apoio em algumas etapas de organização e esclarecimento de dúvidas. As decisões sobre o conteúdo do projeto, o levantamento das informações, a definição das entidades e dos relacionamentos e a elaboração do modelo DER foram realizadas e revisadas pelos integrantes do grupo.
 
-### Organização do README.md
+A ferramenta não foi utilizada para substituir o trabalho do grupo, mas como apoio pontual para estruturar textos, esclarecer conceitos e melhorar a apresentação de alguns materiais.
 
-| Item | Descrição |
-| :---- | :---- |
-| **Ferramenta e etapa** | ChatGPT — organização das informações da Entrega 1. |
-| **Motivação** | Apoiar a organização das informações levantadas pelo grupo na estrutura do arquivo README fornecida pelo professor. |
-| **Prompt(s) utilizados** | Solicitações para organizar as informações já coletadas de acordo com as seções e instruções presentes no modelo de entrega. |
-| **Resposta recebida** | A IA auxiliou na organização e estruturação do conteúdo nas seções correspondentes do arquivo Markdown. |
-| **Fontes consultadas e verificadas** | As informações utilizadas vieram principalmente do levantamento realizado pelo grupo e do modelo de entrega fornecido pelo professor. |
-| **Trechos rejeitados ou corrigidos** | Informações que não haviam sido levantadas pelo grupo ou que não correspondiam ao funcionamento conhecido da organização foram desconsideradas ou revisadas. |
-| **Justificativa da escolha final** | O grupo revisou a organização final para garantir que o README representasse as informações efetivamente levantadas. |
-| **Reflexão crítica** | A IA foi utilizada como ferramenta de organização e revisão. O conteúdo precisou ser conferido pelo grupo, pois a ferramenta não participou da pesquisa de campo. |
+## 5.1. Registro dos usos
 
-### Apoio na compreensão do DER
+### Uso 1 — Organização das informações no arquivo Markdown
 
-O ChatGPT foi utilizado para explicar conceitos relacionados ao Diagrama Entidade-Relacionamento (DER), auxiliando na compreensão de entidades, atributos, relacionamentos e cardinalidades.
+**Ferramenta e etapa:** ChatGPT — organização da documentação da Entrega 1 em Markdown.
 
-Esse auxílio teve caráter didático e explicativo. A IA não elaborou o DER final, não definiu as entidades do modelo e não determinou as cardinalidades utilizadas pelo grupo. A construção do modelo foi realizada pelos integrantes com base no levantamento dos processos e regras de negócio da organização.
+**Motivação:** Melhorar a estrutura do README e distribuir as informações já levantadas pelo grupo nas seções correspondentes do trabalho.
 
-A IA foi utilizada como apoio à formatação e organização do conteúdo, e não para definir quais informações deveriam fazer parte do dicionário. Os dados e atributos foram definidos a partir do levantamento realizado pelo grupo.
+**Prompt utilizado (síntese):**
+> Organize as informações que já estão no arquivo Markdown conforme a estrutura solicitada para a entrega, mantendo o conteúdo existente e indicando os pontos que ainda precisam ser preenchidos.
 
-### Usos de IA na Entrega 2
+**Resposta recebida:** Sugestões de organização das seções, títulos e subtítulos, além da indicação de campos que ainda precisavam de informações do grupo.
 
-[Registrar aqui cada uso de IA realizado na Entrega 2, incluindo ferramenta e etapa, motivação, prompt(s), resposta recebida, fontes consultadas e verificadas, trechos rejeitados ou corrigidos, justificativa da escolha final e reflexão crítica. Se não houver uso de IA em alguma etapa, declarar isso explicitamente.]
+**Fontes consultadas e verificadas:** Foram utilizados os materiais fornecidos pelo próprio grupo, como o README anterior e o roteiro da atividade. Não foi necessário utilizar fontes externas para essa organização.
+
+**Trechos rejeitados ou corrigidos:** O grupo precisou conferir a distribuição das informações e manter como pendentes os dados que ainda não haviam sido levantados. Informações ausentes não foram tratadas como se já estivessem confirmadas.
+
+**Justificativa da escolha final:** A estrutura sugerida foi aproveitada como apoio de formatação, mas o grupo permaneceu responsável por revisar o texto e completar o conteúdo.
+
+**Reflexão crítica:** A ferramenta ajuda a organizar documentos extensos, mas não conhece automaticamente todos os detalhes do projeto. Por isso, foi necessário conferir se cada informação estava no lugar correto e se não havia conteúdo inventado.
+
+---
+
+### Uso 2 — Esclarecimento de conceitos relacionados ao DER
+
+**Ferramenta e etapa:** ChatGPT — apoio ao entendimento dos conceitos de modelagem conceitual e do Diagrama Entidade-Relacionamento (DER).
+
+**Motivação:** Esclarecer dúvidas sobre entidades, atributos, relacionamentos e cardinalidades para que os integrantes pudessem compreender melhor os elementos utilizados no trabalho.
+
+**Prompt utilizado (síntese):**
+> Explique os conceitos de DER, entidades, atributos, relacionamentos e cardinalidades de uma forma simples, com exemplos.
+
+**Resposta recebida:** Explicações didáticas dos conceitos e exemplos para facilitar a compreensão da notação e da função de cada elemento do DER.
+
+**Fontes consultadas e verificadas:** A explicação foi usada como apoio ao estudo. A conferência do modelo e das decisões de modelagem foi feita pelo grupo com base no enunciado, no levantamento realizado e no material da disciplina.
+
+**Trechos rejeitados ou corrigidos:** As explicações foram consideradas apenas material de apoio. O grupo não adotou automaticamente exemplos genéricos como regras do sistema da organização.
+
+**Justificativa da escolha final:** O apoio foi útil para esclarecer dúvidas, mas a definição do conteúdo do DER — incluindo entidades, atributos, relacionamentos e cardinalidades — ficou a cargo dos integrantes. O ChatGPT não elaborou o DER final.
+
+**Reflexão crítica:** Exemplos genéricos ajudam a entender a teoria, mas não substituem a análise das necessidades reais do sistema. É necessário avaliar cada relacionamento de acordo com as regras identificadas pelo grupo.
+
+---
+
+### Uso 3 — Organização visual do dicionário de dados em HTML
+
+**Ferramenta e etapa:** ChatGPT — ajustes de organização e apresentação do arquivo HTML do dicionário de dados.
+
+**Motivação:** Melhorar a disposição das informações e facilitar a leitura do dicionário, sem transferir para a ferramenta a definição dos dados do projeto.
+
+**Prompt utilizado (síntese):**
+> Ajude a organizar a estrutura e a apresentação deste arquivo HTML do dicionário de dados, mantendo as informações fornecidas.
+
+**Resposta recebida:** Sugestões de estruturação e formatação do HTML para apresentar o conteúdo de maneira mais organizada.
+
+**Fontes consultadas e verificadas:** O conteúdo utilizado foi o material produzido pelo grupo. A conferência das informações do dicionário ficou sob responsabilidade dos integrantes.
+
+**Trechos rejeitados ou corrigidos:** Foram mantidas apenas as sugestões compatíveis com o conteúdo e com a organização desejada pelo grupo. A ferramenta não foi considerada fonte para definir entidades, atributos ou regras do banco.
+
+**Justificativa da escolha final:** As sugestões foram aproveitadas como apoio de apresentação. O grupo continuou responsável pelas informações e pela revisão do arquivo.
+
+**Reflexão crítica:** A IA pode ajudar na formatação, mas uma página visualmente organizada não garante que os dados estejam corretos. O conteúdo precisa ser validado separadamente.
+
+---
+
+### Uso 4 — Reorganização da documentação da Entrega 2
+
+**Ferramenta e etapa:** ChatGPT — reorganização do README conforme a estrutura solicitada para a Entrega 2.
+
+**Motivação:** Comparar a estrutura exigida na nova entrega com a documentação anterior e facilitar a identificação das partes que precisavam ser atualizadas ou acrescentadas.
+
+**Prompt utilizado (síntese):**
+> Compare o README existente com o roteiro da Entrega 2 e reorganize o documento para seguir a estrutura solicitada, preservando as informações já registradas e deixando indicados os itens que ainda faltam.
+
+**Resposta recebida:** Uma versão reorganizada do README, com seções correspondentes ao roteiro da Entrega 2 e marcações nos pontos que dependiam de informações ou decisões adicionais do grupo.
+
+**Fontes consultadas e verificadas:** README da Entrega 1 e roteiro/estrutura da Entrega 2 fornecidos pelo grupo. Não foram acrescentadas informações externas como se fossem dados levantados pela equipe.
+
+**Trechos rejeitados ou corrigidos:** Os campos sem informação suficiente foram mantidos como pendentes. O grupo deve completar e revisar essas partes com base no próprio trabalho.
+
+**Justificativa da escolha final:** A reorganização foi aproveitada para facilitar a continuidade da documentação. A ferramenta não definiu o modelo lógico, as chaves, as normalizações ou as decisões técnicas do banco.
+
+**Reflexão crítica:** A IA consegue adaptar a estrutura de um documento a um roteiro, mas não deve preencher lacunas com suposições. A revisão dos requisitos e das decisões técnicas continua sendo responsabilidade do grupo.
+
+---
+
+### Uso 5 — Organização do relatório da entrevista
+
+**Ferramenta e etapa:** ChatGPT — organização do conteúdo do relatório de entrevista em um arquivo Markdown para integrar a documentação do projeto.
+
+**Motivação:** Separar as observações feitas durante a visita das respostas fornecidas pelo entrevistado e organizar os assuntos abordados em seções mais fáceis de consultar.
+
+**Prompt utilizado (síntese):**
+> Organize o conteúdo deste relatório de entrevista em Markdown, separando o que foi observado durante a visita das respostas do entrevistado e mantendo as informações do documento original.
+
+**Resposta recebida:** Um texto estruturado com identificação dos participantes, data e local, observações da rotina, respostas da entrevista, informações sobre processos e negociações, indicadores e necessidades de análise.
+
+**Fontes consultadas e verificadas:** O documento `Relatório de entrevista.docx`, fornecido pelo grupo. As informações registradas no Markdown devem ser conferidas com o documento original.
+
+**Trechos rejeitados ou corrigidos:** Não foram inventados números exatos de processos ou devedores, pois o relatório não apresentava esses dados. Também não foi afirmada a realização de uma segunda visita nem a existência de uma fotografia, pois essas informações não constavam no documento recebido.
+
+**Justificativa da escolha final:** A organização em Markdown foi aproveitada para facilitar a leitura e a inclusão do relatório no repositório. O conteúdo factual foi baseado no documento da entrevista, e não em suposições da ferramenta.
+
+**Reflexão crítica:** A IA pode ajudar a resumir e organizar um relatório, mas existe o risco de alterar o sentido de uma resposta ou misturar observações com declarações do entrevistado. Por isso, é importante comparar o resultado com o documento original.
+
+---
+
+## 5.2. Responsabilidade do grupo e limites do uso
+
+O grupo utilizou a ferramenta principalmente para:
+
+- organizar e reestruturar documentos em Markdown;
+- esclarecer dúvidas teóricas sobre conceitos de DER;
+- melhorar a apresentação do arquivo HTML do dicionário de dados;
+- organizar o relatório da entrevista sem acrescentar informações não registradas.
+
+As atividades de levantamento e interpretação das necessidades da organização, definição das entidades e atributos, construção do DER, decisões de modelagem e validação do conteúdo permaneceram sob responsabilidade dos integrantes.
+
+As respostas da IA foram tratadas como sugestões e apoio. O grupo deve conferir os textos e exemplos antes de incluí-los na versão final do repositório.
+
+**Observação sobre os prompts:** os textos apresentados nesta seção são sínteses representativas dos pedidos feitos durante as conversas, e não transcrições literais completas. Eles foram descritos dessa forma para registrar a finalidade de cada uso sem afirmar que são cópias exatas das mensagens originais.
