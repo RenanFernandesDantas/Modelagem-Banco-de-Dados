@@ -75,7 +75,7 @@ O acesso às informações da organização ocorreu por meio de um integrante qu
 - **Data e local da entrevista:** A entrevista foi realizada presencialmente em 17/09/2026, nas dependências do escritório, localizado na R. Serra de Botucatu, 660, 11º andar, Tatuapé, São Paulo — SP.
 - **Observações presenciais:** Foram observados como é feito o controle de clientes, o sistema usado para as consultas dos negócios, como é consultado o histórico dos clientes e devedores.
 - **Respostas e informações fornecidas:** foram identificadas atividades de gerenciamento de clientes e processos, acompanhamento de prazos, elaboração de documentos, negociação de dívidas e registro de pagamentos.
-- **Levantamento completo:** [](levantamento/levantamento.md).
+- **Levantamento completo:** [levantamento](levantamento/levantamento.md).
 
 As informações utilizadas no projeto têm finalidade acadêmica. Dados pessoais, informações financeiras de clientes, documentos sigilosos e outros dados confidenciais da organização não devem ser expostos.
 
