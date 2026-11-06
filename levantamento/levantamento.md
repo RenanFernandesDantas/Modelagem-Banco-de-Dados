@@ -116,9 +116,10 @@ O documento fornecido não informa a realização de uma nova visita após a Ent
 
 A entrevista foi descrita como presencial e realizada no ambiente da organização.
 
-**Foto da entrevista:** o relatório fornecido não contém uma foto nem informa o nome de um arquivo de imagem. Para atender ao requisito da entrega, o grupo deverá adicionar ao repositório pelo menos uma fotografia da entrevista no local, em formato **JPG ou PNG**, e inserir o link abaixo:
-
-- [Adicionar link relativo para a foto JPG/PNG armazenada no repositório.]
+[Foto do Lugar](FotoLugar.jpeg)
+[Foto do Lugar](FotoLugar2.jpeg)
+[Foto do Lugar da Entrevista](FotoLugarEntrevista.jpeg)
+[Foto com Entrevistado](FotoEntrevistado.jpeg)
 
 ## 7. Justificativa do volume da massa de dados
 
@@ -132,8 +133,6 @@ A massa deverá:
 - Apresentar mais contatos sem resposta do que contatos com outros resultados;
 - Incluir processos em andamento, arquivados e extintos por acordo;
 - Distribuir pagamentos em meses diferentes.
-
-Os dados utilizados deverão ser fictícios, sem exposição de informações pessoais, valores individuais ou documentos sigilosos de clientes reais.
 
 ---
 
