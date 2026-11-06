@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dicionário de Dados - Escritório Jurídico</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --dark-color: #1f2937;
+            --light-color: #f9fafb;
+            --border-color: #e5e7eb;
+            --accent-color: #d97706;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background-color: #f3f4f6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin: 0 0 10px 0;
+            font-size: 2em;
+        }
+
+        .subtitle {
+            color: #6b7280;
+            font-size: 1.1em;
+            margin: 0;
+        }
+
+        h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-top: 35px;
+            font-size: 1.5em;
+        }
+
+        h3 {
+            color: var(--secondary-color);
+            margin-top: 25px;
+            font-size: 1.2em;
+        }
+
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            background-color: var(--light-color);
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 25px;
+        }
+
+        .metadata-item strong {
+            color: var(--primary-color);
+            display: block;
+            font-size: 0.9em;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 30px 0;
+            font-size: 0.92em;
+        }
+
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9fafb;
+        }
+
+        tr:hover {
+            background-color: #f3f4f6;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .badge-pk { background-color: #fef3c7; color: #92400e; border: 1px solid #f59e0b; }
+        .badge-fk { background-color: #dbeafe; color: #1e40af; border: 1px solid #60a5fa; }
+        .badge-unique { background-color: #e0e7ff; color: #3730a3; border: 1px solid #818cf8; }
+
+        .formal-expr {
+            background-color: #1e293b;
+            color: #f8fafc;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin-bottom: 15px;
+        }
+
+        .alert-box {
+            background-color: #fffbeb;
+            border-left: 4px solid var(--accent-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .footer {
+            margin-top: 50px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            text-align: center;
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dicionário de Dados do Banco de Dados</h1>
+            <p class="subtitle">Sistema de Gestão Jurídica e Recuperação de Crédito — Araujo & Augusto Advogados e Associados</p>
+        </header>
+
+        <!-- SEÇÃO 1: CONVENÇÕES GERAIS -->
+        <section id="convencao">
+            <h2>1. Convenções Gerais do Banco de Dados</h2>
+            <div class="metadata-grid">
+                <div class="metadata-item">
+                    <strong>SGBD Alvo</strong>
+                    MySQL 8.0+ / MariaDB 10.5+
+                </div>
+                <div class="metadata-item">
+                    <strong>Engine</strong>
+                    InnoDB (Suporte a Transações e FKs)
+                </div>
+                <div class="metadata-item">
+                    <strong>Charset / Collation</strong>
+                    utf8mb4 / utf8mb4_unicode_ci
+                </div>
+                <div class="metadata-item">
+                    <strong>Versão do Esquema</strong>
+                    v2.2 (Alinhado às Cardinalidades Fictícias do DER)
+                </div>
+                <div class="metadata-item">
+                    <strong>Convenção de Nomenclatura</strong>
+                    PascalCase (Tabelas), snake_case (Atributos/Índices)
+                </div>
+                <div class="metadata-item">
+                    <strong>Prefixos de Índices</strong>
+                    pk_* (Chave Primária), fk_* (Chave Estrangeira), uq_* (Unicidade), idx_* (Índice Simples)
+                </div>
+            </div>
+            <p><strong>Regra de Notação Formal:</strong> NOME_TABELA (<span class="badge badge-pk">PK: id_tabela</span>, atributo_1, atributo_2, <span class="badge badge-fk">FK: id_outra_tabela → OUTRA_TABELA</span>)</p>
+        </section>
+
+        <!-- SEÇÃO 2: DEFINIÇÃO DAS ENTIDADES E CARDINALIDADES BASEADAS NO DER -->
+        <section id="entidades-relacionamentos">
+            <h2>2. Definição das Entidades e Cardinalidades do DER</h2>
+
+            <h3>2.1 Módulo Jurídico</h3>
+            <ul>
+                <li><strong>Cliente:</strong> Armazena os dados cadastrais dos clientes do escritório.
+                    <br><em>Relacionamento (possui):</em> <code>Cliente (1,1) --- (0,n) Processo</code>.
+                </li>
+                <li><strong>Processo:</strong> Registra as demandas judiciais.
+                    <br><em>Relacionamentos:</em> 
+                    <ul>
+                        <li>Com <strong>Cliente</strong>: <code>Processo (0,n) --- (1,1) Cliente</code>.</li>
+                        <li>Com <strong>Equipe (acompanha)</strong>: <code>Processo (0,n) --- (1,1) Equipe</code>.</li>
+                        <li>Com <strong>Documento (possui)</strong>: <code>Processo (0,1) --- (1,n) Documento</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Documento:</strong> Armazena as petições e arquivos anexados aos processos.
+                    <br><em>Relacionamento:</em> <code>Documento (1,n) --- (0,1) Processo</code>.
+                </li>
+            </ul>
+
+            <h3>2.2 Módulo de Recuperação de Crédito</h3>
+            <ul>
+                <li><strong>Carteira:</strong> Agrupamento de contratos de parceiros credores.
+                    <br><em>Relacionamentos:</em>
+                    <ul>
+                        <li>Com <strong>Equipe (gerencia)</strong>: <code>Carteira (1,1) --- (1,1) Equipe</code>.</li>
+                        <li>Com <strong>Devedor (possui)</strong>: <code>Carteira (1,n) --- (1,n) Devedor</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Devedor:</strong> Registra os inadimplentes.
+                    <br><em>Relacionamentos:</em>
+                    <ul>
+                        <li>Com <strong>Carteira</strong>: <code>Devedor (1,n) --- (1,n) Carteira</code>.</li>
+                        <li>Com <strong>Contato (possui)</strong>: <code>Devedor (1,1) --- (1,n) Contato</code>.</li>
+                        <li>Com <strong>Negociacao (realiza)</strong>: <code>Devedor (1,1) --- (0,n) Negociacao</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Contato:</strong> Registra as abordagens e interações de cobrança.
+                    <br><em>Relacionamento:</em> <code>Contato (1,n) --- (1,1) Devedor</code>.
+                </li>
+                <li><strong>Negociacao:</strong> Registra propostas e acordos de negociação de dívidas.
+                    <br><em>Relacionamentos:</em>
+                    <ul>
+                        <li>Com <strong>Devedor</strong>: <code>Negociacao (0,n) --- (1,1) Devedor</code>.</li>
+                        <li>Com <strong>Pagamento (gera)</strong>: <code>Negociacao (1,1) --- (1,n) Pagamento</code>.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>2.3 Módulo Transversal / Financeiro</h3>
+            <ul>
+                <li><strong>Equipe:</strong> Registra os advogados e negociadores do escritório.
+                    <br><em>Relacionamentos:</em>
+                    <ul>
+                        <li>Com <strong>Carteira (gerencia)</strong>: <code>Equipe (1,1) --- (1,1) Carteira</code>.</li>
+                        <li>Com <strong>Processo (acompanha)</strong>: <code>Equipe (1,1) --- (0,n) Processo</code>.</li>
+                    </ul>
+                </li>
+                <li><strong>Pagamento:</strong> Registra os pagamentos efetuados.
+                    <br><em>Relacionamento (gera):</em> <code>Pagamento (1,n) --- (1,1) Negociacao</code>.
+                </li>
+            </ul>
+        </section>
+
+        <!-- SEÇÃO 3: FLUXO DE DADOS -->
+        <section id="fluxo-dados">
+            <h2>3. Fluxo de Dados Simplificado</h2>
+            <div class="alert-box">
+                <strong>Fluxo Operacional Integrado:</strong>
+                <ol>
+                    <li><strong>Prospecção/Entrada:</strong> O <em>Cliente</em> entra no sistema e se abre um <em>Processo Judicial</em> associado ao responsável na <em>Equipe</em> e com <em>Documentos</em> anexados.</li>
+                    <li><strong>Recuperação de Crédito:</strong> A <em>Carteira</em> vincula <em>Devedores</em>. Os negociadores efetuam <em>Contatos</em> obrigatórios.</li>
+                    <li><strong>Acordo e Fechamento:</strong> As tentativas geram uma <em>Negociacao</em> que atualiza a situação do <em>Devedor</em>.</li>
+                    <li><strong>Liquidação Financeira:</strong> A <em>Negociacao</em> gera parcelas na tabela de <em>Pagamento</em> para amortização dos débitos.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SEÇÃO 4: DICIONÁRIO DE ATRIBUTOS, LEITURA, TIPO FÍSICO E ÍNDICES -->
+        <section id="dicionario-detalhado">
+            <h2>4. Detalhamento Físico das Tabelas e Atributos</h2>
+
+            <!-- TABELA CLIENTE -->
+            <h3>4.1 Tabela: <code>Cliente</code></h3>
+            <p><strong>Descrição:</strong> Cadastro de clientes do escritório.</p>
+            <div class="formal-expr">
+                Cliente (<span class="badge badge-pk">PK: id_cliente</span>, nome, <span class="badge badge-unique">UQ: cpf_cnpj</span>, endereco, telefone, email)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_cliente</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador único do cliente.</td>
+                        <td>Obrigatório e Único. Valor autogerado.</td>
+                    </tr>
+                    <tr>
+                        <td><code>nome</code></td>
+                        <td>VARCHAR(150)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Nome completo do cliente.</td>
+                        <td>Obrigatório. Preenchimento conforme documento.</td>
+                    </tr>
+                    <tr>
+                        <td><code>cpf_cnpj</code></td>
+                        <td>VARCHAR(18)</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-unique">UQ</span> uq_cliente_cpf_cnpj</td>
+                        <td>CPF ou CNPJ do cliente.</td>
+                        <td>Obrigatório e Único. Deve ser válido.</td>
+                    </tr>
+                    <tr>
+                        <td><code>endereco</code></td>
+                        <td>VARCHAR(255)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Logradouro completo.</td>
+                        <td>Opcional. Contém rua, número e cidade.</td>
+                    </tr>
+                    <tr>
+                        <td><code>telefone</code></td>
+                        <td>VARCHAR(20)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Número de telefone para contato.</td>
+                        <td>Opcional. Formato com DDD.</td>
+                    </tr>
+                    <tr>
+                        <td><code>email</code></td>
+                        <td>VARCHAR(150)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>E-mail principal do cliente.</td>
+                        <td>Opcional. Formato válido.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA EQUIPE -->
+            <h3>4.2 Tabela: <code>Equipe</code></h3>
+            <p><strong>Descrição:</strong> Integrantes da equipe do escritório.</p>
+            <div class="formal-expr">
+                Equipe (<span class="badge badge-pk">PK: id_advogado</span>, nome, <span class="badge badge-unique">UQ: oab</span>, especializacao, funcao)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_advogado</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador do integrante da equipe.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>nome</code></td>
+                        <td>VARCHAR(150)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Nome do profissional.</td>
+                        <td>Obrigatório.</td>
+                    </tr>
+                    <tr>
+                        <td><code>oab</code></td>
+                        <td>VARCHAR(20)</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-unique">UQ</span> uq_equipe_oab</td>
+                        <td>Registro da OAB.</td>
+                        <td>Obrigatório e Único. Validação exigida (RO07).</td>
+                    </tr>
+                    <tr>
+                        <td><code>especializacao</code></td>
+                        <td>VARCHAR(100)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Área de atuação.</td>
+                        <td>Opcional. Ex: 'Civil', 'Trabalhista'.</td>
+                    </tr>
+                    <tr>
+                        <td><code>funcao</code></td>
+                        <td>VARCHAR(80)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Função desempenhada.</td>
+                        <td>Obrigatório. Ex: 'Sócio', 'Associado', 'Negociador'.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA PROCESSO -->
+            <h3>4.3 Tabela: <code>Processo</code></h3>
+            <p><strong>Descrição:</strong> Processos judiciais acompanhados.</p>
+            <div class="formal-expr">
+                Processo (<span class="badge badge-pk">PK: id_processo</span>, <span class="badge badge-fk">FK: id_cliente → Cliente</span>, tipo, status, vara_tribunal, prazo)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio Corrigida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_processo</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador único do processo.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_cliente</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-fk">FK</span> idx_processo_cliente</td>
+                        <td>Chave estrangeira apontando para Cliente.</td>
+                        <td>Obrigatório (RN06). ON UPDATE CASCADE, ON DELETE RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>tipo</code></td>
+                        <td>VARCHAR(50)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Classificação da natureza do processo.</td>
+                        <td>Obrigatório. Ex: 'Civil', 'Trabalhista'.</td>
+                    </tr>
+                    <tr>
+                        <td><code>status</code></td>
+                        <td>ENUM</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Estado atual do processo.</td>
+                        <td><strong>CORREÇÃO APLICADA:</strong> Domínio restrito a: <code>'Ativo'</code>, <code>'Suspenso'</code>, <code>'Arquivado'</code>, <code>'Encerrado'</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>vara_tribunal</code></td>
+                        <td>VARCHAR(150)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Órgão julgador competente.</td>
+                        <td><strong>CORREÇÃO APLICADA:</strong> Texto descritivo (Ex: '1ª Vara Cível - TJSP').</td>
+                    </tr>
+                    <tr>
+                        <td><code>prazo</code></td>
+                        <td>DATE</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Data limite para ato processual.</td>
+                        <td><strong>CORREÇÃO APLICADA:</strong> Tratado como valor simples de data (RO06).</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA DOCUMENTO -->
+            <h3>4.4 Tabela: <code>Documento</code></h3>
+            <p><strong>Descrição:</strong> Arquivos e petições dos processos.</p>
+            <div class="formal-expr">
+                Documento (<span class="badge badge-pk">PK: id_documento</span>, <span class="badge badge-fk">FK: id_processo → Processo</span>, tipo, data, arquivo)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_documento</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador do documento.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_processo</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-fk">FK</span> idx_documento_processo</td>
+                        <td>Identificador do processo vinculado.</td>
+                        <td>Obrigatório (RN07). ON UPDATE CASCADE, ON DELETE RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>tipo</code></td>
+                        <td>VARCHAR(50)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Tipo de documento.</td>
+                        <td>Ex: 'Procuração', 'Petição', 'Contrato'.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data</code></td>
+                        <td>DATE</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Data de emissão/registro.</td>
+                        <td>Formato YYYY-MM-DD.</td>
+                    </tr>
+                    <tr>
+                        <td><code>arquivo</code></td>
+                        <td>VARCHAR(255)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Caminho de armazenamento do arquivo.</td>
+                        <td>URI ou caminho físico.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA CARTEIRA -->
+            <h3>4.5 Tabela: <code>Carteira</code></h3>
+            <p><strong>Descrição:</strong> Carteiras de dívida dos credores parceiros.</p>
+            <div class="formal-expr">
+                Carteira (<span class="badge badge-pk">PK: id_carteira</span>, <span class="badge badge-fk">FK: id_responsavel → Equipe</span>, nome, tipo_contrato, data_inicio, data_fim)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_carteira</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador da carteira.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_responsavel</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Sim</td>
+                        <td><span class="badge badge-fk">FK</span> idx_carteira_responsavel</td>
+                        <td>Membro da equipe responsável.</td>
+                        <td>Opcional. ON UPDATE CASCADE, ON DELETE SET NULL.</td>
+                    </tr>
+                    <tr>
+                        <td><code>nome</code></td>
+                        <td>VARCHAR(100)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Nome da carteira ou credor.</td>
+                        <td>Ex: 'Neon', 'Itapeva', 'CredAtivos', 'Kroton' (RN01).</td>
+                    </tr>
+                    <tr>
+                        <td><code>tipo_contrato</code></td>
+                        <td>VARCHAR(80)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Tipo de contrato firmado.</td>
+                        <td>Ex: 'Prestação de serviços', 'Parceria'.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data_inicio</code></td>
+                        <td>DATE</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Data de início do contrato.</td>
+                        <td>Obrigatório.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data_fim</code></td>
+                        <td>DATE</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Data do término do contrato.</td>
+                        <td>Validação <code>CHECK (data_fim IS NULL OR data_fim >= data_inicio)</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA DEVEDOR -->
+            <h3>4.6 Tabela: <code>Devedor</code></h3>
+            <p><strong>Descrição:</strong> Clientes inadimplentes vinculados às carteiras.</p>
+            <div class="formal-expr">
+                Devedor (<span class="badge badge-pk">PK: id_devedor</span>, <span class="badge badge-fk">FK: id_carteira → Carteira</span>, nome, <span class="badge badge-unique">UQ: cpf_cnpj</span>, endereco, telefone, email, situacao_divida)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_devedor</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador do devedor.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_carteira</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-fk">FK</span> idx_devedor_carteira</td>
+                        <td>Vínculo com a carteira.</td>
+                        <td>Obrigatório (RN02). ON UPDATE CASCADE, ON DELETE RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>nome</code></td>
+                        <td>VARCHAR(150)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Nome completo do devedor.</td>
+                        <td>Obrigatório.</td>
+                    </tr>
+                    <tr>
+                        <td><code>cpf_cnpj</code></td>
+                        <td>VARCHAR(18)</td>
+                        <td>Sim</td>
+                        <td><span class="badge badge-unique">UQ</span> uq_devedor_cpf_cnpj</td>
+                        <td>Documento do devedor.</td>
+                        <td>Permite Nulo, porém Único quando informado.</td>
+                    </tr>
+                    <tr>
+                        <td><code>endereco</code></td>
+                        <td>VARCHAR(255)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Localização do devedor.</td>
+                        <td>Opcional.</td>
+                    </tr>
+                    <tr>
+                        <td><code>telefone</code></td>
+                        <td>VARCHAR(20)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Telefone de contato.</td>
+                        <td>Opcional. Respeita as regras da LGPD e CDC.</td>
+                    </tr>
+                    <tr>
+                        <td><code>email</code></td>
+                        <td>VARCHAR(150)</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Endereço de e-mail.</td>
+                        <td>Opcional.</td>
+                    </tr>
+                    <tr>
+                        <td><code>situacao_divida</code></td>
+                        <td>ENUM</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Situação atual do débito.</td>
+                        <td>Domínio restrito a: <code>'Ativa'</code>, <code>'Negociada'</code>, <code>'Quitada'</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA CONTATO -->
+            <h3>4.7 Tabela: <code>Contato</code></h3>
+            <p><strong>Descrição:</strong> Registro de abordagens de cobrança efetuadas aos devedores.</p>
+            <div class="formal-expr">
+                Contato (<span class="badge badge-pk">PK: id_contato</span>, <span class="badge badge-fk">FK: id_devedor → Devedor</span>, meio, data, resultado)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio Corrigida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_contato</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador da interação.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_devedor</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-fk">FK</span> idx_contato_devedor</td>
+                        <td>Devedor contatado.</td>
+                        <td>Obrigatório. ON UPDATE CASCADE, ON DELETE RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>meio</code></td>
+                        <td>VARCHAR(50)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Meio/Canal de comunicação.</td>
+                        <td>Ex: 'Telefone', 'WhatsApp', 'E-mail'.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data</code></td>
+                        <td>DATETIME</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Data e horário da abordagem.</td>
+                        <td><strong>CORREÇÃO APLICADA:</strong> DATETIME para permitir verificação de horário (RO05).</td>
+                    </tr>
+                    <tr>
+                        <td><code>resultado</code></td>
+                        <td>ENUM</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Resultado do contato.</td>
+                        <td>Domínio restrito a: <code>'Sem resposta'</code>, <code>'Promessa de pagamento'</code>, <code>'Acordo fechado'</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA NEGOCIACAO -->
+            <h3>4.8 Tabela: <code>Negociacao</code></h3>
+            <p><strong>Descrição:</strong> Registro de negociações e propostas de acordo.</p>
+            <div class="formal-expr">
+                Negociacao (<span class="badge badge-pk">PK: id_negociacao</span>, <span class="badge badge-fk">FK: id_devedor → Devedor</span>, <span class="badge badge-fk">FK: id_responsavel → Equipe</span>, tipo, status, valor_total, data_inicio, data_fim)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_negociacao</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador da negociação.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_devedor</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-fk">FK</span> idx_negociacao_devedor</td>
+                        <td>Devedor da negociação.</td>
+                        <td>Obrigatório (RN03). ON UPDATE CASCADE, ON DELETE RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_responsavel</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Sim</td>
+                        <td><span class="badge badge-fk">FK</span> idx_negociacao_responsavel</td>
+                        <td>Responsável da equipe que negociou.</td>
+                        <td>Opcional. ON UPDATE CASCADE, ON DELETE SET NULL.</td>
+                    </tr>
+                    <tr>
+                        <td><code>tipo</code></td>
+                        <td>VARCHAR(50)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Tipo de proposta ou acordo.</td>
+                        <td>Ex: 'Parcelamento', 'Pagamento a vista'.</td>
+                    </tr>
+                    <tr>
+                        <td><code>status</code></td>
+                        <td>ENUM</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Status atual da negociação.</td>
+                        <td>Domínio restrito a: <code>'Em andamento'</code>, <code>'Concluida'</code>, <code>'Cancelada'</code>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>valor_total</code></td>
+                        <td>DECIMAL(12,2)</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Valor total negociado.</td>
+                        <td>Validação <code>CHECK (valor_total >= 0)</code>. Respeita limites de alçada (RN10).</td>
+                    </tr>
+                    <tr>
+                        <td><code>data_inicio</code></td>
+                        <td>DATE</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Data de início do acordo.</td>
+                        <td>Obrigatório.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data_fim</code></td>
+                        <td>DATE</td>
+                        <td>Sim</td>
+                        <td>—</td>
+                        <td>Data de término do acordo.</td>
+                        <td>Validação <code>CHECK (data_fim IS NULL OR data_fim >= data_inicio)</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- TABELA PAGAMENTO -->
+            <h3>4.9 Tabela: <code>Pagamento</code></h3>
+            <p><strong>Descrição:</strong> Registros financeiros de liquidação de pagamentos das negociações ou processos.</p>
+            <div class="formal-expr">
+                Pagamento (<span class="badge badge-pk">PK: id_pagamento</span>, <span class="badge badge-fk">FK: id_processo → Processo (opcional)</span>, <span class="badge badge-fk">FK: id_negociacao → Negociacao (opcional)</span>, data_pagamento, valor_pago, forma_pagamento)
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Atributo</th>
+                        <th>Tipo Físico</th>
+                        <th>Nulo</th>
+                        <th>Chave / Índice</th>
+                        <th>Descrição do Termo</th>
+                        <th>Regra de Negócio / Domínio Corrigida</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>id_pagamento</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Não</td>
+                        <td><span class="badge badge-pk">PK</span> AUTO_INCREMENT</td>
+                        <td>Identificador do pagamento.</td>
+                        <td>Obrigatório e Único.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_processo</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Sim</td>
+                        <td><span class="badge badge-fk">FK</span> idx_pagamento_processo</td>
+                        <td>Processo gerador do valor.</td>
+                        <td>Opcional. FK RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>id_negociacao</code></td>
+                        <td>INT UNSIGNED</td>
+                        <td>Sim</td>
+                        <td><span class="badge badge-fk">FK</span> idx_pagamento_negociacao</td>
+                        <td>Negociação geradora do valor.</td>
+                        <td>Opcional. FK RESTRICT.</td>
+                    </tr>
+                    <tr>
+                        <td><code>data_pagamento</code></td>
+                        <td>DATE</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Data em que o valor foi pago.</td>
+                        <td>Obrigatório.</td>
+                    </tr>
+                    <tr>
+                        <td><code>valor_pago</code></td>
+                        <td>FLOAT / DECIMAL</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Quantia financeira paga.</td>
+                        <td>Validação <code>CHECK (valor_pago >= 0)</code> (RN04, RN15).</td>
+                    </tr>
+                    <tr>
+                        <td><code>forma_pagamento</code></td>
+                        <td>ENUM</td>
+                        <td>Não</td>
+                        <td>—</td>
+                        <td>Forma de pagamento utilizada.</td>
+                        <td>Domínio restrito a: <code>'Dinheiro'</code>, <code>'PIX'</code>, <code>'Boleto'</code>, <code>'Cartao de credito'</code>, <code>'Cartao de debito'</code>, <code>'Transferencia'</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SEÇÃO 5: LOG DE ACESSO E AUDITORIA -->
+        <section id="log-auditoria">
+            <h2>5. Log de Acesso e Auditoria (RO09)</h2>
+            <p>Para conformidade com o requisito <strong>RO09 (Histórico das Operações)</strong>, as alterações em tabelas críticas (<code>Negociacao</code>, <code>Pagamento</code>, <code>Processo</code>) devem ser auditadas com:</p>
+            <ul>
+                <li><strong>usuario_id:</strong> Usuário que efetuou a alteração.</li>
+                <li><strong>data_hora_operacao:</strong> Data/Hora da operação.</li>
+                <li><strong>tipo_operacao:</strong> <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>.</li>
+                <li><strong>conteudo_anterior / conteudo_novo:</strong> Dados no formato JSON.</li>
+            </ul>
+        </section>
+
+        <!-- SEÇÃO 6: PAPÉIS POR OPERAÇÃO E LGPD -->
+        <section id="papeis-lgpd">
+            <h2>6. Papéis por Operação e LGPD</h2>
+            <h3>6.1 Matriz de Permissões (CRUD)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Papel / Perfil</th>
+                        <th>Cliente / Processo</th>
+                        <th>Documento</th>
+                        <th>Carteira / Devedor</th>
+                        <th>Contato / Negociação</th>
+                        <th>Pagamento / Financeiro</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Advogado Sócio / Gestor</strong></td>
+                        <td>CRUD (Total)</td>
+                        <td>CRUD (Total)</td>
+                        <td>CRUD (Total)</td>
+                        <td>CRUD (Total)</td>
+                        <td>CRUD (Total)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Advogado Associado</strong></td>
+                        <td>CRU (Leitura/Escrita)</td>
+                        <td>CRU (Leitura/Escrita)</td>
+                        <td>R (Leitura)</td>
+                        <td>R (Leitura)</td>
+                        <td>R (Leitura)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Negociador de Cobrança</strong></td>
+                        <td>— (Sem Acesso)</td>
+                        <td>— (Sem Acesso)</td>
+                        <td>R (Leitura)</td>
+                        <td>CRU (Criar/Editar)</td>
+                        <td>CR (Criar/Consultar)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Assistente Financeiro</strong></td>
+                        <td>R (Consultar)</td>
+                        <td>— (Sem Acesso)</td>
+                        <td>R (Consultar)</td>
+                        <td>R (Consultar)</td>
+                        <td>CRUD (Total)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>6.2 Adequação à LGPD (Lei nº 13.709/2018 - RO01, RO02, RO03)</h3>
+            <ul>
+                <li><strong>Proteção aos Dados Pessoais:</strong> Atributos cadastrais como <code>cpf_cnpj</code>, <code>telefone</code> e <code>email</code> são resguardados por política de sigilo profissional.</li>
+                <li><strong>Retenção Restrita:</strong> Dados de débitos quitados e encerrados são retidos apenas pelo prazo legal antes do encerramento e descarte.</li>
+            </ul>
+        </section>
+
+        <footer class="footer">
+            <p>Dicionário de Dados gerado conforme o Diagrama Entidade-Relacionamento (DER) — 2026/2</p>
+        </footer>
+    </div>
+</body>
+</html>
+```
+
+### O que mudou:
+1. **Seção 2 (Cardinalidades):** Todos os pares de entidades e suas cardinalidades mínimas e máximas foram atualizados para bater exatamente com a notação do seu diagrama DER (ex: `Equipe (1,1) --- (1,1) Carteira`, `Carteira (1,n) --- (1,n) Devedor`, `Processo (0,1) --- (1,n) Documento`, etc.).
+2. **Definições mantidas sem inconsistências:** As correções de regras de negócio (`status` vs `vara_tribunal`, atributos compostos/multivalorados) continuam aplicadas no corpo das tabelas.
