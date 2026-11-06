@@ -309,7 +309,7 @@ O modelo tem duas frentes ligadas por `Financeiro`. A frente jurídica é `Clien
 
 A ação em caso de exclusão foi escolhida pelo que cada vínculo significa:
 
-- `RESTRICT` em `Processo`→`Cliente`, `Documento`→`Processo`, `Devedor`→`Carteira`, `Contato`→`Devedor`, `Negociacao`→`Devedor` e em `Financeiro`. Esses registros são histórico do escritório, e não se pode apagar o pai e deixar os filhos órfãos ou perder o rastro (RO08 e RO09).
+- `RESTRICT` em `Processo`→`Cliente`, `Documento`→`Processo`, `Devedor`→`Carteira`, `Contato`→`Devedor`, `Negociacao`→`Devedor` e em `Financeiro`. Esses registros são histórico do escritório (RO08 e RO09).
 - `CASCADE` em `Processo_Equipe.id_processo`. O vínculo não faz sentido sem o processo.
 - `RESTRICT` em `Processo_Equipe.id_advogado`. Um advogado vinculado a processos não pode ser removido (RN14).
 - `SET NULL` em `Carteira.id_responsavel` e `Negociacao.id_responsavel`. Se alguém sai da equipe, a carteira e a negociação continuam existindo, só ficam sem responsável até serem reatribuídas (RN15).
