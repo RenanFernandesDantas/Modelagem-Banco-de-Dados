@@ -116,10 +116,10 @@ O documento fornecido não informa a realização de uma nova visita após a Ent
 
 A entrevista foi descrita como presencial e realizada no ambiente da organização.
 
-- [Foto do Lugar](FotoLugar.jpeg).
-- [Foto do Lugar](FotoLugar2.jpeg).
-- [Foto do Lugar da Entrevista](FotoLugarEntrevista.jpeg).
-- [Foto com Entrevistado](FotoEntrevistado.jpeg).
+- [Foto do Lugar](/FotoLugar.jpg).
+- [Foto do Lugar](/FotoLugar2.jpg).
+- [Foto do Lugar da Entrevista](/FotoLugarEntrevista.jpeg).
+- [Foto com Entrevistado](/FotoEntrevistado.jpeg).
 
 ## 7. Justificativa do volume da massa de dados
 
