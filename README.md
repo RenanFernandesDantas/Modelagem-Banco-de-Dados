@@ -220,28 +220,29 @@ As regras relacionadas à LGPD, ao Código de Defesa do Consumidor, ao Código d
 
 **Entidades**
 
-Cada entidade do DER virou uma tabela, com chave primária substituta `id_<entidade>` do tipo `INT UNSIGNED AUTO_INCREMENT`. O modelo ficou com 10 tabelas, divididas em três grupos.
+Cada entidade do DER virou uma tabela. Todas têm uma chave primária criada por nós, no formato `id_<entidade>`, do tipo `INT UNSIGNED AUTO_INCREMENT`. Os nomes que fogem disso são a chave de `Equipe`, que se chama `id_advogado` (a tabela também guarda negociadores, mas o nome ficou da primeira versão), e as chaves estrangeiras `id_responsavel`, em `Carteira` e `Negociacao`. No total ficaram 10 tabelas, separadas em três grupos.
 
 | Grupo | Tabelas |
 | :-- | :-- |
 | Jurídico | `Cliente`, `Processo`, `Documento` |
 | Recuperação de crédito | `Carteira`, `Devedor`, `Contato`, `Negociacao` |
-| Transversais | `Equipe`, `Financeiro`, e a tabela associativa `Processo_Equipe` |
+| Transversais | `Equipe`, `Pagamento` e a tabela associativa `Processo_Equipe` |
 
 **Atributos**
 
-Cada atributo simples virou uma coluna. A escolha do tipo seguiu o que o dado representa:
+Cada atributo simples virou uma coluna, e o tipo foi escolhido de acordo com o dado:
 
-- Textos livres, como nomes, endereços e caminhos de arquivo, usam `VARCHAR`.
-- Valores monetários (`honorarios`, `pagamentos`, `pendencias`, `valor_total`) usam `DECIMAL(12,2)`, para evitar erro de arredondamento.
-- Datas usam `DATE`. Em `Contato.data` foi usado `DATETIME`, porque o horário do contato precisa ser registrado (RO05).
-- Atributos com poucos valores fixos viraram `ENUM`: `Processo.status`, `Devedor.situacao_divida`, `Negociacao.status` e `Contato.resultado`.
+- Textos livres, como nomes, endereços e caminhos de arquivo, são `VARCHAR`.
+- Valores em dinheiro (`valor_pago`, `valor_total`) são `DECIMAL(12,2)`, para não ter erro de arredondamento.
+- Datas são `DATE`. Só `Contato.data` é `DATETIME`, porque precisamos guardar a hora do contato (RO05).
+- Atributos com poucos valores fixos viraram `ENUM`: `Processo.status`, `Devedor.situacao_divida`, `Negociacao.status`, `Contato.resultado` e `Pagamento.forma_pagamento`.
+- Outros atributos também têm poucos valores, mas ficaram como `VARCHAR`: `Contato.meio` (5 valores nos dados de teste), `Negociacao.tipo` (4), `Documento.tipo` (8), `Processo_Equipe.papel` e `Equipe.funcao`. Ou seja, não usamos o mesmo critério para decidir entre `ENUM` e `VARCHAR`. Isso é uma limitação do trabalho (seção 6).
 
-Os atributos obrigatórios no levantamento ficaram `NOT NULL`. Os opcionais, como telefone, e-mail e `data_fim` de contrato em aberto, aceitam nulo. CPF/CNPJ e OAB viraram colunas únicas, para impedir cadastro em duplicidade. `Devedor.cpf_cnpj` é único, mas aceita nulo, porque nem todo devedor tem o documento levantado.
+Os atributos que o levantamento marcou como obrigatórios ficaram `NOT NULL`. Os opcionais, como telefone, e-mail e `data_fim` de um contrato em aberto, aceitam nulo. CPF/CNPJ e OAB são colunas únicas, para não deixar cadastrar a mesma pessoa duas vezes. O `Devedor.cpf_cnpj` é único mas aceita nulo, porque nem todo devedor tem o documento levantado.
 
 **Relacionamentos e cardinalidades**
 
-Os relacionamentos 1:N foram implementados colocando a chave estrangeira no lado N. O relacionamento N:M virou uma tabela associativa.
+Nos relacionamentos 1:N, a chave estrangeira fica na tabela do lado N. O único relacionamento N:M virou uma tabela associativa.
 
 | Relacionamento | Cardinalidade | Como foi implementado |
 | :-- | :-- | :-- |
@@ -253,24 +254,24 @@ Os relacionamentos 1:N foram implementados colocando a chave estrangeira no lado
 | Devedor e Negociacao | 1:N | `Negociacao.id_devedor`, obrigatória |
 | Equipe e Carteira | 1:N, opcional | `Carteira.id_responsavel`, aceita nulo |
 | Equipe e Negociacao | 1:N, opcional | `Negociacao.id_responsavel`, aceita nulo |
-| Processo e Financeiro | 1:N, opcional | `Financeiro.id_processo`, aceita nulo |
-| Negociacao e Financeiro | 1:N, opcional | `Financeiro.id_negociacao`, aceita nulo |
+| Processo e Pagamento | 1:N, opcional | `Pagamento.id_processo`, aceita nulo (honorários) |
+| Negociacao e Pagamento | 1:N, opcional | `Pagamento.id_negociacao`, aceita nulo (valores de acordo) |
 
-A relação entre `Processo` e `Equipe` é N:M porque um processo pode ter um advogado responsável e outros de apoio, e um advogado atua em vários processos. Na tabela `Processo_Equipe`, a chave primária é composta por (`id_processo`, `id_advogado`) e a coluna `papel` diferencia Responsavel e Apoio.
+Processo e Equipe é N:M porque um processo pode ter um advogado responsável e outros de apoio, e um mesmo advogado atua em vários processos. Na tabela `Processo_Equipe` a chave primária é composta por (`id_processo`, `id_advogado`), e a coluna `papel` diz o que cada pessoa faz naquele processo. Os dados de teste usam três papéis: `Responsavel`, `Apoio` e `Revisor` (29 registros). O `Revisor` não existia nas versões anteriores.
 
-`Financeiro` pode se originar de um processo (honorários) ou de uma negociação (pagamentos de um acordo). Por isso as duas chaves estrangeiras são opcionais, e a restrição `ck_financeiro_origem` exige que ao menos uma esteja preenchida.
+Um `Pagamento` pode vir de um processo (honorários) ou de uma negociação (parcelas de um acordo). Por isso as duas chaves estrangeiras são opcionais, e a restrição `ck_pagamento_origem` exige que pelo menos uma delas esteja preenchida. Só que ela usa `OR`, então o banco também aceitaria um pagamento com as duas origens ao mesmo tempo. O que a gente quer é "uma ou outra" (XOR). Os dados de teste respeitam isso, mas o esquema não obriga.
 
 **Generalização e especialização**
 
-Não foi usada generalização/especialização. As variações que poderiam virar subtipos foram resolvidas com uma coluna descritiva:
+Não usamos generalização/especialização. Onde poderia haver subtipos, resolvemos com uma coluna descritiva:
 
-- Sócios, associados e negociadores ficam todos em `Equipe`, diferenciados por `funcao`, em vez de uma tabela para cada tipo.
-- Procuração e petição ficam em `Documento`, diferenciadas por `tipo`.
-- `Cliente` e `Devedor` não foram unidos em uma entidade "Pessoa". Eles vivem em contextos diferentes (jurídico e recuperação de crédito) e têm atributos próprios, como `situacao_divida` em `Devedor`.
+- Sócios, associados, advogados e negociadores ficam todos em `Equipe`, separados pela coluna `funcao`, em vez de uma tabela para cada tipo. Isso tem um custo: `oab` é `NOT NULL`, mas 60 dos 80 integrantes dos dados de teste são negociadores, e para eles usamos números de OAB inventados em sequência. Na vida real, um negociador que não é advogado não teria OAB. Separar advogado e negociador, ou deixar `oab` opcional, é uma melhoria necessária (seção 6).
+- Procuração e petição ficam em `Documento`, separadas por `tipo`.
+- `Cliente` e `Devedor` não foram unidos em uma entidade "Pessoa". Eles ficam em contextos diferentes (jurídico e recuperação de crédito) e têm atributos próprios, como `situacao_divida` em `Devedor`.
 
 **Atributos derivados e multivalorados**
 
-Não há atributo multivalorado no modelo, pois cada um foi transformado em tabela própria (`Contato`, `Documento`, `Processo_Equipe`). `Financeiro.pendencias` é derivável de honorários e pagamentos, e foi mantido como coluna porque o modelo ainda não tem tabela de pagamentos (ver 1.4).
+Não há atributo multivalorado, porque cada um virou uma tabela própria (`Contato`, `Documento`, `Processo_Equipe`, `Pagamento`). Também não guardamos nenhum atributo derivado. Nas versões anteriores, `pendencias` podia ser calculado a partir de honorários e pagamentos e ficava em `Financeiro`. Com a tabela `Pagamento` isso mudou: o banco não guarda quanto de honorário era devido, então a pendência de um processo não dá para calcular (ver 1.4). Nas negociações dá, porque a pendência é `Negociacao.valor_total` menos a soma de `Pagamento.valor_pago` daquela negociação.
 
 
 ### 1.3 Definição de Chaves Primárias e Estrangeiras
@@ -286,101 +287,144 @@ Não há atributo multivalorado no modelo, pois cada um foi transformado em tabe
 | `Devedor` | `id_devedor` | `id_carteira` → `Carteira` (CASCADE, RESTRICT) | `cpf_cnpj` |
 | `Contato` | `id_contato` | `id_devedor` → `Devedor` (CASCADE, RESTRICT) | nenhuma |
 | `Negociacao` | `id_negociacao` | `id_devedor` → `Devedor` (CASCADE, RESTRICT); `id_responsavel` → `Equipe` (CASCADE, SET NULL) | nenhuma |
-| `Financeiro` | `id_financeiro` | `id_processo` → `Processo` (RESTRICT, RESTRICT); `id_negociacao` → `Negociacao` (RESTRICT, RESTRICT) | nenhuma |
+| `Pagamento` | `id_pagamento` | `id_processo` → `Processo` (RESTRICT, RESTRICT); `id_negociacao` → `Negociacao` (RESTRICT, RESTRICT) | nenhuma |
 
-As chaves primárias simples são `INT UNSIGNED AUTO_INCREMENT`. Em `Carteira.id_responsavel`, `Negociacao.id_responsavel`, `Financeiro.id_processo` e `Financeiro.id_negociacao` a FK aceita nulo. Em `Financeiro`, o `CHECK` `ck_financeiro_origem` exige que pelo menos uma das duas esteja preenchida. Nas demais tabelas, as FKs são obrigatórias (`NOT NULL`). Em cada FK, a primeira ação entre parênteses é a de `ON UPDATE` e a segunda é a de `ON DELETE`.
+As chaves primárias simples são `INT UNSIGNED AUTO_INCREMENT`. Quatro FKs aceitam nulo: `Carteira.id_responsavel`, `Negociacao.id_responsavel`, `Pagamento.id_processo` e `Pagamento.id_negociacao`. Em `Pagamento`, o `CHECK` `ck_pagamento_origem` exige que pelo menos uma das duas esteja preenchida. Nas outras tabelas as FKs são obrigatórias (`NOT NULL`). Em cada FK, a primeira ação entre parênteses é a do `ON UPDATE` e a segunda é a do `ON DELETE`.
 
 ### 1.4 Processo de Normalização (1FN, 2FN e 3FN)
 
-- **1FN:** Nenhuma tabela tem coluna com lista de valores nem colunas repetidas do tipo telefone1/telefone2. Os advogados de um processo não ficam dentro de `Processo`: o vínculo está em `Processo_Equipe`, com uma linha por advogado. As tentativas de contato com um devedor não ficam em `Devedor`, e sim em `Contato`, com uma linha por tentativa (meio, data e resultado). Os arquivos de um processo também têm uma linha cada em `Documento`. Todas as tabelas têm chave primária e as colunas guardam valores atômicos. O endereço foi mantido como um único texto por simplificação.
-- **2FN:** Só `Processo_Equipe` tem chave primária composta (`id_processo`, `id_advogado`). A única coluna que não é chave é `papel`, e ela depende do par inteiro: o mesmo advogado pode ser Responsavel num processo e Apoio em outro. Nome, OAB e função do advogado, que dependeriam só de `id_advogado`, ficam em `Equipe`. Os dados do processo ficam em `Processo`. As outras nove tabelas têm chave simples, então não existe dependência parcial.
-- **3FN:** os dados descritivos ficam na tabela da entidade a que pertencem e as demais apontam por chave estrangeira. `Processo` guarda `id_cliente`, e não nome e CPF do cliente. `Devedor` guarda `id_carteira`, e não o nome da carteira nem o tipo de contrato. `Carteira` e `Negociacao` guardam `id_responsavel`, e não nome e OAB do responsável. Assim, corrigir o nome de um cliente é um único UPDATE em uma linha. Há uma exceção conhecida em `Financeiro`: `pendencias` poderia ser calculada como `honorarios - pagamentos`. A coluna foi mantida porque o modelo ainda não tem uma tabela `Pagamento`. Quando ela existir, pagamentos e pendências passam a ser calculados a partir dela.
-- **Justificativa:** o problema do escritório é ter informações espalhadas e repetidas em planilhas (P1 e P2). Neste modelo, um cliente tem vários processos, um devedor tem vários contatos, um advogado atua em vários processos e uma carteira reúne muitos devedores. Sem normalizar, esses dados seriam copiados várias vezes, o que causa três anomalias. Na atualização, mudar o telefone de um cliente exigiria alterar várias linhas. Na inserção, não seria possível cadastrar um advogado que ainda não tem processo. Na exclusão, apagar o último processo de um cliente faria o cadastro dele sumir. A normalização também sustenta as regras RN06 e RN07 (processo e petição sempre ligados a cliente e processo cadastrados) e a integridade referencial (RNF03 e RO08).]
+- **1FN:** nenhuma tabela tem coluna com lista de valores, nem colunas repetidas do tipo telefone1/telefone2. Os advogados de um processo não ficam dentro de `Processo`: o vínculo está em `Processo_Equipe`, com uma linha por advogado. As tentativas de contato com um devedor estão em `Contato`, uma linha por tentativa. Cada arquivo de um processo é uma linha em `Documento`, e cada recebimento é uma linha em `Pagamento`. Todas as tabelas têm chave primária. Mesmo assim, ficaram algumas violações da atomicidade:
+  - `Processo.vara_tribunal` junta duas informações (vara e tribunal, como em "2a Vara Civel - TJSP"). Os dados de teste têm 102 valores diferentes em 182 processos, e para filtrar por tribunal (TJSP, TRT-2, TRF-3) só dá para buscar dentro do texto. O certo seria separar em `vara` e `tribunal`.
+  - `Equipe.oab` junta a UF com o número ("OAB/SP 100001"). Se fossem duas colunas, daria para filtrar por seccional.
+  - O endereço de `Cliente` e `Devedor` é um texto só, para simplificar.
+  - A versão da petição está no nome do arquivo (`peticao_inicial_v1.pdf`) e não em uma coluna.
+- **2FN:** só `Processo_Equipe` tem chave primária composta (`id_processo`, `id_advogado`). A única coluna que não é chave é `papel`, e ela depende do par inteiro, porque o mesmo advogado pode ser Responsavel num processo e Apoio em outro. Nome, OAB e função do advogado dependeriam só de `id_advogado`, então ficam em `Equipe`. As outras nove tabelas têm chave simples, então não existe dependência parcial.
+- **3FN:** os dados descritivos ficam na tabela da entidade a que pertencem, e as outras tabelas só apontam para ela por chave estrangeira. `Processo` guarda `id_cliente`, e não o nome e o CPF do cliente. `Devedor` guarda `id_carteira`, e não o nome da carteira. `Carteira` e `Negociacao` guardam `id_responsavel`, e não o nome e a OAB do responsável. Assim, corrigir o nome de um cliente é um `UPDATE` em uma linha só. `Pagamento` também não guarda nada que dê para calcular: não tem coluna de pendência. Ressalvas:
+  - `Equipe.funcao` mistura cargo com gênero ("Socio" e "Socia", "Associado" e "Associada"). São 8 valores para 4 funções, e o melhor seria guardar só o cargo.
+  - `Processo_Equipe.papel` e `Equipe.funcao` são texto livre, sem tabela de domínio.
+- **Consequência de não ter o valor devido:** como `Pagamento` guarda só o que foi recebido, o banco não sabe quanto de honorário era devido em cada processo. Por isso não dá para calcular pendência nem vencimento de honorários. Nas negociações dá, porque `Negociacao.valor_total` é o valor devido. Se o grupo quiser controlar honorários pendentes, vai precisar criar uma tabela de honorários ou colunas de valor devido e vencimento em `Processo`.
+- **Justificativa:** o problema do escritório é ter informações espalhadas e repetidas em planilhas (P1 e P2). Neste modelo, um cliente tem vários processos, um devedor tem vários contatos, um advogado atua em vários processos e uma carteira reúne muitos devedores. Sem normalizar, esses dados seriam copiados várias vezes, e isso causa três anomalias. Na atualização, trocar o telefone de um cliente obrigaria a mudar várias linhas. Na inserção, não daria para cadastrar um advogado que ainda não tem processo. Na exclusão, apagar o último processo de um cliente faria o cadastro dele sumir. A normalização evita essa repetição. Já a garantia de que um processo só existe com cliente cadastrado (RN06) e de que um documento só existe com processo (RN07) vem das chaves estrangeiras `NOT NULL`, ou seja, da integridade referencial (RNF03 e RO08), e não da normalização.
 
 ### 1.5 Justificativas Técnicas das Decisões
 
 #### Chaves primárias
 
-Todas as tabelas usam uma chave substituta `id_<entidade>` do tipo `INT UNSIGNED AUTO_INCREMENT`. CPF/CNPJ e OAB não foram usados como chave porque podem ser corrigidos, e em `Devedor` o `cpf_cnpj` pode ser nulo. Uma chave curta e imutável também deixa as chaves estrangeiras e os índices menores. Mesmo assim, `Cliente.cpf_cnpj`, `Devedor.cpf_cnpj` e `Equipe.oab` são `UNIQUE`, para impedir cadastro em duplicidade. A exceção é `Processo_Equipe`, que tem chave composta (`id_processo`, `id_advogado`) e por isso não permite registrar o mesmo advogado duas vezes no mesmo processo.
+Todas as tabelas usam uma chave substituta `id_<entidade>` do tipo `INT UNSIGNED AUTO_INCREMENT`. Não usamos CPF/CNPJ nem OAB como chave porque eles podem ser corrigidos, e em `Devedor` o `cpf_cnpj` pode ser nulo. Uma chave curta que nunca muda também deixa as chaves estrangeiras e os índices menores. Mesmo assim, `Cliente.cpf_cnpj`, `Devedor.cpf_cnpj` e `Equipe.oab` são `UNIQUE`, para impedir cadastro duplicado. A exceção é `Processo_Equipe`, com chave composta (`id_processo`, `id_advogado`), que não deixa registrar o mesmo advogado duas vezes no mesmo processo.
 
 #### Relacionamentos e chaves estrangeiras
 
-O modelo tem duas frentes ligadas por `Financeiro`. A frente jurídica é `Cliente` → `Processo` → `Documento`. A frente de recuperação de crédito é `Carteira` → `Devedor` → `Contato` e `Negociacao`. A relação entre advogados e processos é N:M, porque um processo pode ter responsável e apoio e um advogado atua em vários processos. Por isso ela virou a tabela associativa `Processo_Equipe`, com a coluna `papel`.
+O modelo tem duas frentes ligadas por `Pagamento`. A frente jurídica é `Cliente` → `Processo` → `Documento`. A de recuperação de crédito é `Carteira` → `Devedor` → `Contato` e `Negociacao`. A relação entre advogados e processos é N:M, porque um processo pode ter responsável e apoio e um advogado atua em vários processos. Por isso ela virou a tabela associativa `Processo_Equipe`, com a coluna `papel`.
 
-A ação em caso de exclusão foi escolhida pelo que cada vínculo significa:
+A ação de exclusão de cada FK foi escolhida pelo que o vínculo significa:
 
-- `RESTRICT` em `Processo`→`Cliente`, `Documento`→`Processo`, `Devedor`→`Carteira`, `Contato`→`Devedor`, `Negociacao`→`Devedor` e em `Financeiro`. Esses registros são histórico do escritório (RO08 e RO09).
-- `CASCADE` em `Processo_Equipe.id_processo`. O vínculo não faz sentido sem o processo.
-- `RESTRICT` em `Processo_Equipe.id_advogado`. Um advogado vinculado a processos não pode ser removido (RN14).
-- `SET NULL` em `Carteira.id_responsavel` e `Negociacao.id_responsavel`. Se alguém sai da equipe, a carteira e a negociação continuam existindo, só ficam sem responsável até serem reatribuídas (RN15).
-- `ON UPDATE CASCADE` na maioria das chaves. Em `Financeiro` é `RESTRICT`, porque o MySQL não aceita `CHECK` sobre coluna que tenha FK com `CASCADE` ou `SET NULL` (erro 3823), e `ck_financeiro_origem` usa as duas colunas.
+- `RESTRICT` em `Processo`→`Cliente`, `Documento`→`Processo`, `Devedor`→`Carteira`, `Contato`→`Devedor`, `Negociacao`→`Devedor` e em `Pagamento`. Esses registros são o histórico do escritório (RO08 e RO09).
+- `CASCADE` em `Processo_Equipe.id_processo`, porque o vínculo não faz sentido sem o processo.
+- `RESTRICT` em `Processo_Equipe.id_advogado`, porque um advogado ligado a processos não pode ser removido (RN14).
+- `SET NULL` em `Carteira.id_responsavel` e `Negociacao.id_responsavel`. Se alguém sai da equipe, a carteira e a negociação continuam existindo e só ficam sem responsável até alguém ser designado (RN15).
+- `ON UPDATE CASCADE` na maioria das chaves. Em `Pagamento` é `RESTRICT`, porque o MySQL não aceita `CHECK` em coluna que tenha FK com `CASCADE` ou `SET NULL` (erro 3823), e o `ck_pagamento_origem` usa as duas colunas.
 
 #### Restrições de integridade e regras de negócio
 
-| Restrição | Regra atendida | Observação |
-| :-- | :-- | :-- |
-| `Processo.id_cliente` NOT NULL + FK | RN06 | Processo só existe com cliente cadastrado |
-| `Documento.id_processo` NOT NULL + FK | RN07 | Petição e demais documentos sempre vinculados a um processo |
-| `Devedor.id_carteira` NOT NULL + FK | RN02 | Garante carteira cadastrada. Não verifica se a carteira está vigente |
-| `Negociacao.id_devedor` NOT NULL + FK | RN03 | Garante devedor cadastrado. Não verifica se a dívida está `Ativa` |
-| `Equipe.oab` NOT NULL + UNIQUE | RN14, RO07 | Responsável com habilitação identificada |
-| `Processo_Equipe.papel` | RN14, RN15 | Distingue responsável e apoio |
-| `Carteira.id_responsavel` e `Negociacao.id_responsavel` | RN15 | Responsável por atividade, opcional |
-| `ck_carteira_datas` | RN01 | Período do contrato coerente. Não impede carteira sem contrato vigente |
-| `ck_negociacao_datas` e `ck_negociacao_valor` | RNF03 | Data final não anterior à inicial e valor não negativo |
-| `ck_financeiro_origem` | RN09 | Todo lançamento tem processo ou negociação de origem |
-| `ck_financeiro_valores` | RNF03 | Honorários, pagamentos e pendências não negativos |
-| ENUMs de `status` e `situacao_divida` | RN05 | Valores padronizados permitem relatórios por situação |
-| `Contato.data` como `DATETIME` | RO05 | Permite auditar o horário dos contatos |
-| `UNIQUE` em `cpf_cnpj` | RNF03 | Evita cadastro duplicado de cliente e de devedor |
-| Índices em todas as FKs | RNF06 | Acelera JOINs e consultas por carteira, processo e devedor |
+A coluna "Cobertura" mostra o que o esquema realmente garante. **Estrutural** quer dizer que o banco impede a violação. **Parcial** quer dizer que o banco ajuda, mas não impede tudo. **Não impede** quer dizer que só uma consulta de auditoria consegue apontar o problema.
+
+| Restrição | Regra | Cobertura | Observação |
+| :-- | :-- | :-- | :-- |
+| `Processo.id_cliente` NOT NULL + FK | RN06 | Estrutural | Processo só existe com cliente cadastrado |
+| `Documento.id_processo` NOT NULL + FK | RN07 | Estrutural | Petição e outros documentos sempre ligados a um processo |
+| `Devedor.id_carteira` NOT NULL + FK | RN02 | Parcial | Garante que a carteira existe, mas não verifica se ela está vigente |
+| `Negociacao.id_devedor` NOT NULL + FK | RN03 | Parcial | Garante que o devedor existe, mas não verifica se a dívida está `Ativa` |
+| `Equipe.oab` NOT NULL + UNIQUE | RN14, RO07 | Parcial | Identifica a habilitação, mas obriga a inventar OAB para negociadores. Também não impede que alguém sem habilitação seja responsável por um processo |
+| `Processo_Equipe.papel` | RN14, RN15 | Parcial | Separa os papéis, mas não garante exatamente um `Responsavel` por processo (nos dados atuais tem um por processo) |
+| `Carteira.id_responsavel` e `Negociacao.id_responsavel` | RN15 | Parcial | São opcionais. A auditoria A01 mostra as negociações sem responsável |
+| `ck_carteira_datas` | RN01 | Parcial | Deixa o período do contrato coerente, mas não impede carteira sem contrato vigente |
+| `ck_negociacao_datas` e `ck_negociacao_valor` | RNF03 | Estrutural | Data final não pode ser antes da inicial e o valor não pode ser negativo |
+| `ck_pagamento_origem` | RN09 | Parcial | Todo pagamento tem processo ou negociação de origem, mas aceita as duas ao mesmo tempo (usa `OR`). Não há ligação direta com o cliente |
+| `ck_pagamento_valor` | RNF03 | Parcial | Valor não negativo, mas aceita `valor_pago = 0` |
+| ENUMs de `status`, `situacao_divida`, `resultado` e `forma_pagamento` | RN05 | Estrutural | Valores padronizados permitem relatórios por situação |
+| `Contato.data` como `DATETIME` | RO05 | Parcial | Permite auditar o horário dos contatos, mas o script não tem consulta de auditoria de horário |
+| `UNIQUE` em `cpf_cnpj` | RNF03 | Estrutural | Impede dois cadastros com o mesmo CPF/CNPJ em `Cliente` e em `Devedor` |
+| Índices em todas as FKs | RNF06 | Estrutural | Deixa mais rápidos os JOINs e as consultas por carteira, processo e devedor |
+
+**Nada impede que a soma dos pagamentos de uma negociação passe de `valor_total`.** Os dados atuais respeitam esse limite, mas a regra não está no esquema.
+
+#### Consultas de auditoria e o que elas verificam
+
+As três consultas de auditoria do script cobrem só RN15, RN04 e RN09. **Nenhuma cobre RN01, RN02 ou RN03.** Essas três regras dependem do estado de outras tabelas e hoje não são garantidas nem auditadas.
+
+| Consulta | Regra | Resultado nos dados atuais | Leitura |
+| :-- | :-- | :-- | :-- |
+| A01 | RN15 | 5 negociações sem responsável | Violação real da regra nos dados. |
+| A02 | RN04 | 35 pagamentos em 21 negociações `Cancelada`, somando R$ 35.977,35 | Pode ser normal (pagamentos parciais antes do cancelamento). O esquema não registra quando o acordo foi formalizado, então a consulta é só um indício. |
+| A03 | RN09 | 46 processos com pagamento e sem documento do tipo "Contrato de Honorarios" | A consulta mede outra coisa: a RN09 pede que o honorário esteja ligado a processo, cliente ou negociação, e não fala em contrato. Além disso, `Pagamento.id_processo` não diferencia honorário de custas. |
+
+O script diz que, se a consulta não retornar linhas, a regra está ok. Nenhuma das três ficou sem linhas. **Neste relatório, esses resultados são tratados como inconsistências conhecidas dos dados de teste, e não como regras cumpridas.** O script e o README não dizem se elas foram colocadas de propósito, então o grupo precisa decidir se corrige os dados ou se mantém os casos como exemplos de auditoria, e registrar essa decisão.
 
 #### Decisões arquiteturais
 
-Os dois ramos do escritório ficam no mesmo banco, o que permite relatórios cruzados (RF16), por exemplo honorários por cliente e valores recuperados por carteira. O vínculo advogado-processo saiu de `Processo` e foi para uma tabela associativa, para suportar mais de um advogado por processo. Os estados (`status`, `situacao_divida`, `resultado`) são `ENUM` por serem poucos e fixos. A desvantagem é que incluir um valor novo exige `ALTER TABLE`. Valores de `ENUM` e dados de exemplo foram escritos sem acento para evitar problemas de codificação. O script começa com `DROP DATABASE IF EXISTS` e pode ser executado do zero quantas vezes forem necessárias.
+Os dois ramos do escritório ficam no mesmo banco, o que permite relatórios cruzados, como pagamentos por carteira e arrecadação por mês. O vínculo entre advogado e processo saiu de `Processo` e foi para uma tabela associativa, para aceitar mais de um advogado por processo. Os estados (`status`, `situacao_divida`, `resultado`) são `ENUM` porque são poucos e fixos. A desvantagem é que, para incluir um valor novo, é preciso fazer `ALTER TABLE`. Os valores de `ENUM` e os dados de exemplo foram escritos sem acento, para evitar problema de codificação. O script começa com `DROP DATABASE IF EXISTS`, então pode ser rodado do zero quantas vezes precisar. Os `CHECK` só funcionam a partir do MySQL 8.0.16 (ver seção 3).
 
 #### Regras que o esquema atual não cobre
 
-O esquema não garante integralmente RN01, RN02 e RN03, que dependem do estado de outras tabelas. Essas regras são verificadas pelas consultas de auditoria. As regras RN04, RN08, RN10, RN11, RN12 e RN13 e o histórico de operações (RO09) não têm tabela correspondente. Para elas, a evolução natural seria criar `Pagamento`, `Audiencia`, `Despesa` e uma tabela de log, além de colunas de parcelas e desconto em `Negociacao`.
+- **Sem nenhuma estrutura:** RN08 (audiências), RN10 (limite de desconto), RN11 (parcelamento), RN12 (comissão e repasse), RN13 (custas separadas dos honorários) e RO09 (histórico de operações). Os requisitos RF11, RF12 e RF14 têm cobertura parcial ou nenhuma (seção 1.1).
+- **Só por consulta, e ainda sem consulta:** RN01, RN02 e RN03.
+- **Cobertura parcial:** RN04, RN09 e RN14 (tabela acima).
+
+O próximo passo natural seria criar `Audiencia`, `Movimentacao`, `Despesa` e uma tabela de log, além de colunas de parcelas e desconto em `Negociacao`, colunas de valor devido para honorários, um `CHECK` XOR em `Pagamento` e `numero_processo` e `data_abertura` em `Processo` (o modelo atual não tem o número CNJ do processo).
 
 ### 1.6 Proposta de Arquitetura Analítica para BI e IA
 
 **Informações estratégicas**
 
-A gestão do escritório precisa enxergar, num só lugar, o que hoje está em planilhas separadas (P1): quanto cada carteira já recuperou e quanto ainda deve, quais negociadores fecham mais acordos, quais processos estão parados ou perto do prazo (P2) e quais honorários estão pendentes por cliente. Os dados para isso já existem no modelo, em `Carteira`, `Devedor`, `Contato`, `Negociacao`, `Processo` e `Financeiro`.
+A gestão do escritório precisa ver num lugar só o que hoje está em planilhas separadas (P1): quanto cada carteira já recuperou, quais negociadores fecham mais acordos, quais processos estão perto do prazo (P2) e quanto o escritório arrecada por período. Os dados para isso estão em `Carteira`, `Devedor`, `Contato`, `Negociacao`, `Processo` e `Pagamento`.
 
-**Indicadores e métricas gerenciais (KPIs)**
+**Indicadores implementados no script**
 
-| KPI | Fórmula | Período | Meta sugerida |
-| :-- | :-- | :-- | :-- |
-| KPI 1. Dívida por carteira e situação | número de devedores e soma de `Negociacao.valor_total` por carteira e `situacao_divida` | mensal | acompanhar a migração de `Ativa` para `Negociada` e `Quitada` |
-| KPI 2. Taxa de conversão em acordo | contatos com `resultado = 'Acordo fechado'` ÷ total de contatos × 100 | mensal, por carteira | a definir com o supervisor |
-| KPI 3. Percentual recuperado | `pagamentos` ÷ (`pagamentos` + `pendencias`) × 100, em `Financeiro` das negociações | mensal, por carteira | a definir com o supervisor |
-| KPI 4. Processos por responsável e status | contagem de `Processo` por advogado com `papel = 'Responsavel'` e por `status` | semanal | nenhum processo `Ativo` sem responsável |
-| KPI 5. Honorários pendentes a vencer | soma de `pendencias` dos lançamentos de processos, ordenada por `vencimento` | semanal | zero pendências vencidas |
+| KPI | Fórmula | Período | Consulta | Observação |
+| :-- | :-- | :-- | :-- | :-- |
+| KPI01. Valor recuperado por carteira | soma de `Pagamento.valor_pago` das negociações de cada carteira, com número de devedores e de negociações | acumulado | G01 | Inclui pagamentos de negociações canceladas. |
+| KPI02. Arrecadação por mês | soma de `Pagamento.valor_pago` agrupada por `AAAA-MM`, com a quantidade de pagamentos | mensal | G03 | Soma os honorários (receita do escritório) com os valores de acordos, que em boa parte são do credor (RN12). Nos dados atuais são cerca de R$ 1,23 milhão contra R$ 0,81 milhão. Por isso a G03 mede o total recebido, e não a receita do escritório. |
+
+Para o problema P2, a consulta G02 lista os processos `Ativo` ou `Suspenso` com prazo nos próximos 30 dias a partir de 05/11/2026.
+
+**Indicadores propostos, ainda sem consulta no script**
+
+| KPI proposto | Fórmula | Situação |
+| :-- | :-- | :-- |
+| Taxa de conversão em acordo | contatos com `resultado = 'Acordo fechado'` ÷ total de contatos × 100, por carteira e mês | Os dados existem em `Contato`. Falta escrever a consulta. |
+| Percentual recuperado por negociação | soma de `Pagamento.valor_pago` ÷ `Negociacao.valor_total` × 100 | Os dados existem. Falta escrever a consulta. |
+| Processos por responsável e status | contagem de `Processo` por advogado com `papel = 'Responsavel'` e por `status` | Os dados existem. Falta escrever a consulta. |
+| Honorários pendentes e vencidos | valor devido menos valor pago, por vencimento | **Não dá com o esquema atual**: o banco não guarda valor devido nem vencimento de honorários (ver 1.4). |
 
 **Potencial dos dados para BI**
 
-Cada KPI sai de um JOIN simples entre tabelas ligadas por FK, então os dados podem alimentar um painel sem transformação prévia. As dimensões naturais são `Carteira`, `Equipe`, `Cliente`, `Processo.status` e `Devedor.situacao_divida`. Os fatos vêm de `Financeiro` (valores e vencimentos), `Contato` (data e resultado) e `Negociacao` (valor e datas). Um painel pode combinar, por exemplo, um gráfico de recuperação por carteira (G03), a taxa de acordo por carteira (G02) e uma lista de processos e honorários perto do vencimento (G04 e G05). Como `Contato.data` guarda a hora, também é possível analisar em que horário os contatos são feitos (RO05).
+Os indicadores implementados saem de JOINs simples entre tabelas ligadas por FK. As dimensões naturais são `Carteira`, `Equipe`, `Cliente`, `Processo.status`, `Devedor.situacao_divida` e `Pagamento.forma_pagamento`. Os fatos vêm de `Pagamento` (valores e datas), `Contato` (data e resultado) e `Negociacao` (valor e datas). Como `Contato.data` guarda a hora, também daria para analisar em que horário os contatos são feitos (RO05).
 
 **Aplicações analíticas e de IA**
 
-Com mais histórico, os dados permitiriam três usos. O primeiro é estimar a probabilidade de acordo de um devedor a partir do meio de contato, do número de tentativas e da carteira. O segundo é priorizar a fila de cobrança dos negociadores com base nessa estimativa e no valor da dívida. O terceiro é prever atraso de pagamento nos parcelamentos. Hoje a massa de dados tem poucos registros, então isso é uma proposta de evolução, e não algo que já possa ser treinado. Qualquer uso com dados reais exigiria cuidado com a LGPD (RO01).
+Esta parte é uma proposta de evolução, e não algo que o banco atual permita treinar. Os dados são sintéticos, feitos só para testar o esquema e as consultas, então qualquer modelo treinado neles apenas repetiria a regra usada para gerar os dados. Com dados reais de histórico, daria para fazer três coisas:
+
+- **Estimar a probabilidade de acordo de um devedor.** A variável-alvo seria `Contato.resultado = 'Acordo fechado'` (ou o fechamento de uma `Negociacao`), e as variáveis de entrada seriam o meio de contato, o número de tentativas anteriores e a carteira.
+- **Priorizar a fila de cobrança** dos negociadores, com base nessa estimativa e no valor da dívida.
+- **Prever atraso nos parcelamentos.** A variável-alvo seria um pagamento fora do prazo. Para isso seria preciso guardar a data prevista de cada parcela, que o esquema atual não tem.
+
+Qualquer uso com dados reais exigiria cuidado com a LGPD (RO01).
 
 **Tabela de rastreabilidade**
 
 | Problema ou KPI | Tabelas envolvidas | Consulta no script |
 | :-- | :-- | :-- |
-| P1. Informações descentralizadas | `Carteira`, `Devedor`, `Negociacao`, `Contato`, `Financeiro` | G01 |
-| P2. Dificuldade de localização e atualização | `Processo`, `Processo_Equipe`, `Equipe`, `Cliente`, `Financeiro` | G04 e G05 |
-| KPI 1. Dívida por carteira e situação | `Carteira`, `Devedor`, `Negociacao` | G01 |
-| KPI 2. Taxa de conversão em acordo | `Carteira`, `Devedor`, `Contato` | G02 |
-| KPI 3. Percentual recuperado | `Carteira`, `Devedor`, `Negociacao`, `Financeiro` | G03 |
-| KPI 4. Processos por responsável e status | `Processo`, `Processo_Equipe`, `Equipe` | G04 |
-| KPI 5. Honorários pendentes a vencer | `Cliente`, `Processo`, `Financeiro` | G05 |
+| P1. Informações descentralizadas | `Carteira`, `Devedor`, `Negociacao`, `Pagamento` | G01 |
+| P2. Dificuldade de localização e atualização (prazos e situação dos processos) | `Processo`, `Processo_Equipe`, `Equipe`, `Cliente` | G02 |
+| KPI01. Valor recuperado por carteira | `Carteira`, `Devedor`, `Negociacao`, `Pagamento` | G01 |
+| KPI02. Arrecadação por mês | `Pagamento` | G03 |
+
+| Regra verificada | Consulta de auditoria |
+| :-- | :-- |
+| RN15 (responsável definido) | A01 |
+| RN04 (pagamento com acordo) | A02 |
+| RN09 (pagamento com origem identificada) | A03 |
 
 ---
-
 ## 2. Modelo Lógico Relacional
 
 - **Software utilizado:** brModelo web.
@@ -403,29 +447,48 @@ O diagrama apresenta todas as tabelas, colunas e tipos de dados, chaves primári
 
 ## 3. Script SQL Completo
 
-- **SGBD:** MySQL.
+- **SGBD:** MySQL **8.0.16 ou superior**. Em versões anteriores, os `CHECK` são lidos, mas ignorados, e as restrições `ck_*` deixam de valer.
 - **Arquivo do script:** anexado no repositório.
+- **Execução:** o script começa com `DROP DATABASE IF EXISTS escritorio_juridico` e recria tudo do zero.
 
-O script deve conter, nesta ordem lógica: criação do banco de dados, criação das tabelas, constraints, inserções da massa de dados, consultas `SELECT` com `JOIN`, `UPDATE`, `DELETE`, consultas gerenciais (G01, G02...) e consultas de auditoria (A01, A02...).
+O script contém, nesta ordem lógica: criação do banco de dados, criação das tabelas e constraints, inserções da massa de dados, consultas `SELECT` com `JOIN` (J01 a J03), `UPDATE` (U01 a U03), `DELETE` (D01 e D02), consultas gerenciais (G01 a G03) e consultas de auditoria (A01 a A03). Os comentários de seção no script começam em "5.", porque as seções 1 a 4 correspondem ao banco, às tabelas e às inserções.
 
-Cada consulta gerencial deve indicar a pergunta respondida e o problema/KPI atendido. Cada consulta de auditoria deve indicar a regra de negócio (RNxx) verificada.
+Cada consulta gerencial indica a pergunta respondida e o problema/KPI atendido. Cada consulta de auditoria indica a regra de negócio (RNxx) verificada.
+
+**Limitações conhecidas das consultas** (não corrigidas no script desta entrega):
+
+- **J03** usa `JOIN` interno com `Pagamento` e por isso esconde as 78 negociações sem pagamento.
+- **G01** não usa `COALESCE` no `SUM`, então carteiras sem pagamento apareceriam com `NULL` em vez de zero.
+- **G02** fala em processos "em andamento", mas filtra `Ativo` e `Suspenso`.
+- **G03** soma honorários e valores de acordos e inclui pagamentos de negociações canceladas.
+- **U02** altera o telefone do cliente 19, que estava `NULL`. Na prática é um preenchimento, e não uma atualização de valor existente.
+- **D01 e D02** apagam um "devedor duplicado" inserido com CPF diferente (`000.999.999-99`). Um duplicado real seria barrado pelo `UNIQUE` em `cpf_cnpj`, então o exemplo mostra apenas a ordem de exclusão (filho antes do pai).
 
 ---
 
 ## 4. Massa de Dados
 
 - **Arquivo:** a massa de dados se encontra no script.
-- **Natureza dos dados:** a massa é fictícia, sem dados pessoais ou financeiros reais de clientes ou envolvidos.
-- **Justificativa do volume:** [Explicar como os números reais da organização justificam a quantidade de registros de cada tabela].
-- **Variedade dos registros:** [Descrever como a massa contempla situações como negociações canceladas, pagamentos, pendências, diferentes carteiras e períodos, conforme aplicável].
+- **Natureza dos dados:** a massa é fictícia, sem dados pessoais ou financeiros reais de clientes ou envolvidos. Os nomes seguem o padrão "Exemplo", os CPF/CNPJ são numerações fictícias e os e-mails usam o domínio `.test`.
+- **Origem:** a massa é sintética e foi produzida em lote (os inserts estão agrupados por faixas de id, como "Processo (ids 3 a 182)" no script). A ferramenta usada para gerá-la não está registrada neste repositório.
+- **Volume total:** cerca de 5.428 linhas.
 
----
+| Tabela | Linhas |
+| :-- | :-- |
+| `Equipe` | 80 |
+| `Carteira` | 4 |
+| `Processo` | 182 |
+| `Devedor` | 500 |
+| `Contato` | 1.576 |
+| `Documento` | 803 |
+| `Pagamento` | 1.414 |
 
-## 5. Uso de Inteligência Artificial
+As demais tabelas (`Cliente`, `Processo_Equipe` e `Negociacao`) completam o total.
 
-Durante o desenvolvimento do trabalho, o grupo utilizou ferramentas de IA (ChatGPT e Gemini) como apoio em algumas etapas de organização, esclarecimento de dúvidas e refatoração de documentos. As decisões sobre o conteúdo do projeto, o levantamento das informações, a definição das entidades e dos relacionamentos e a elaboração do modelo DER foram realizadas e revisadas pelos integrantes do grupo.
-
-As ferramentas não foram utilizadas para substituir o trabalho do grupo, mas como apoio pontual para estruturar textos, esclarecer conceitos, solucionar apontamentos de correção da disciplina e melhorar a apresentação dos materiais.
+- **Justificativa do volume:** o escritório tem mais de 80 funcionários, associados e negociadores, e a tabela `Equipe` tem 80 registros, na mesma ordem de grandeza. As quatro carteiras são as reais (Neon, Itapeva, CredAtivos e Kroton). Os demais volumes, como 500 devedores e 182 processos, não vêm de números informados pela organização. O levantamento não trouxe contagem real de processos ou devedores. Eles foram escolhidos para que as consultas gerenciais tivessem o que agregar e para que cada devedor tivesse contatos, negociações e pagamentos em quantidades diferentes.
+- **Variedade dos registros:** a massa contempla processos nos quatro status (`Ativo`, `Suspenso`, `Arquivado`, `Encerrado`) e de várias áreas (civil, trabalhista, tributário, consumidor, família, empresarial, previdenciário e execução). Contempla devedores nos três estados (`Ativa`, `Negociada`, `Quitada`), contatos com os três resultados e negociações `Concluida`, `Cancelada` e `Em andamento`. Os pagamentos usam as seis formas previstas, cobrem de 2025 a nov/2026 e incluem honorários, parcelas de acordos e pagamentos à vista. Há negociações sem responsável, negociações canceladas com pagamento e processos com pagamento e sem contrato de honorários, conforme registrado nas consultas A01 a A03 (seção 1.5).
+- **Fragilidade técnica:** as chaves estrangeiras da massa são inseridas por número fixo (por exemplo, `id_cliente = 42`). Se um `INSERT` falhar, os ids seguintes se deslocam sem aviso. Por isso o script deve sempre ser executado inteiro, do zero.
+- **Pontos positivos verificados:** não há registros órfãos em nenhuma FK. Toda negociação `Concluida` está paga exatamente no valor total. Nenhum pagamento ultrapassa o total da negociação, antecede o início dela ou está no futuro. Todo processo tem exatamente um `Responsavel`.
 
 ---
 
