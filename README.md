@@ -217,7 +217,61 @@ As regras relacionadas à LGPD, ao Código de Defesa do Consumidor, ao Código d
 
 ### 1.2 Conversão do Modelo Conceitual para o Modelo Lógico
 
-[Descrever como cada entidade foi convertida em tabela, como os atributos foram convertidos em colunas e como os relacionamentos e cardinalidades foram implementados por chaves estrangeiras e tabelas associativas. Descrever também a estratégia de generalização/especialização, caso exista.]
+### 1.2 Conversão do Modelo Conceitual para o Modelo Lógico
+
+**Entidades**
+
+Cada entidade do DER virou uma tabela, com chave primária substituta `id_<entidade>` do tipo `INT UNSIGNED AUTO_INCREMENT`. O modelo ficou com 10 tabelas, divididas em três grupos.
+
+| Grupo | Tabelas |
+| :-- | :-- |
+| Jurídico | `Cliente`, `Processo`, `Documento` |
+| Recuperação de crédito | `Carteira`, `Devedor`, `Contato`, `Negociacao` |
+| Transversais | `Equipe`, `Financeiro`, e a tabela associativa `Processo_Equipe` |
+
+**Atributos**
+
+Cada atributo simples virou uma coluna. A escolha do tipo seguiu o que o dado representa:
+
+- Textos livres, como nomes, endereços e caminhos de arquivo, usam `VARCHAR`.
+- Valores monetários (`honorarios`, `pagamentos`, `pendencias`, `valor_total`) usam `DECIMAL(12,2)`, para evitar erro de arredondamento.
+- Datas usam `DATE`. Em `Contato.data` foi usado `DATETIME`, porque o horário do contato precisa ser registrado (RO05).
+- Atributos com poucos valores fixos viraram `ENUM`: `Processo.status`, `Devedor.situacao_divida`, `Negociacao.status` e `Contato.resultado`.
+
+Os atributos obrigatórios no levantamento ficaram `NOT NULL`. Os opcionais, como telefone, e-mail e `data_fim` de contrato em aberto, aceitam nulo. CPF/CNPJ e OAB viraram colunas únicas, para impedir cadastro em duplicidade. `Devedor.cpf_cnpj` é único, mas aceita nulo, porque nem todo devedor tem o documento levantado.
+
+**Relacionamentos e cardinalidades**
+
+Os relacionamentos 1:N foram implementados colocando a chave estrangeira no lado N. O relacionamento N:M virou uma tabela associativa.
+
+| Relacionamento | Cardinalidade | Como foi implementado |
+| :-- | :-- | :-- |
+| Cliente e Processo | 1:N | `Processo.id_cliente`, obrigatória |
+| Processo e Equipe | N:M | tabela associativa `Processo_Equipe` |
+| Processo e Documento | 1:N | `Documento.id_processo`, obrigatória |
+| Carteira e Devedor | 1:N | `Devedor.id_carteira`, obrigatória |
+| Devedor e Contato | 1:N | `Contato.id_devedor`, obrigatória |
+| Devedor e Negociacao | 1:N | `Negociacao.id_devedor`, obrigatória |
+| Equipe e Carteira | 1:N, opcional | `Carteira.id_responsavel`, aceita nulo |
+| Equipe e Negociacao | 1:N, opcional | `Negociacao.id_responsavel`, aceita nulo |
+| Processo e Financeiro | 1:N, opcional | `Financeiro.id_processo`, aceita nulo |
+| Negociacao e Financeiro | 1:N, opcional | `Financeiro.id_negociacao`, aceita nulo |
+
+A relação entre `Processo` e `Equipe` é N:M porque um processo pode ter um advogado responsável e outros de apoio, e um advogado atua em vários processos. Na tabela `Processo_Equipe`, a chave primária é composta por (`id_processo`, `id_advogado`) e a coluna `papel` diferencia Responsavel e Apoio.
+
+`Financeiro` pode se originar de um processo (honorários) ou de uma negociação (pagamentos de um acordo). Por isso as duas chaves estrangeiras são opcionais, e a restrição `ck_financeiro_origem` exige que ao menos uma esteja preenchida.
+
+**Generalização e especialização**
+
+Não foi usada generalização/especialização. As variações que poderiam virar subtipos foram resolvidas com uma coluna descritiva:
+
+- Sócios, associados e negociadores ficam todos em `Equipe`, diferenciados por `funcao`, em vez de uma tabela para cada tipo.
+- Procuração e petição ficam em `Documento`, diferenciadas por `tipo`.
+- `Cliente` e `Devedor` não foram unidos em uma entidade "Pessoa". Eles vivem em contextos diferentes (jurídico e recuperação de crédito) e têm atributos próprios, como `situacao_divida` em `Devedor`.
+
+**Atributos derivados e multivalorados**
+
+Não há atributo multivalorado no modelo, pois cada um foi transformado em tabela própria (`Contato`, `Documento`, `Processo_Equipe`). `Financeiro.pendencias` é derivável de honorários e pagamentos, e foi mantido como coluna porque o modelo ainda não tem tabela de pagamentos (ver 1.4).
 
 ### 1.3 Definição de Chaves Primárias e Estrangeiras
 
