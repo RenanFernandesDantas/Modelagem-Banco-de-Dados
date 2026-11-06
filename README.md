@@ -423,9 +423,11 @@ Cada consulta gerencial deve indicar a pergunta respondida e o problema/KPI aten
 
 ## 5. Uso de Inteligência Artificial
 
-Durante o desenvolvimento do trabalho, o grupo utilizou o ChatGPT como ferramenta de apoio em algumas etapas de organização e esclarecimento de dúvidas. As decisões sobre o conteúdo do projeto, o levantamento das informações, a definição das entidades e dos relacionamentos e a elaboração do modelo DER foram realizadas e revisadas pelos integrantes do grupo.
+Durante o desenvolvimento do trabalho, o grupo utilizou ferramentas de IA (ChatGPT e Gemini) como apoio em algumas etapas de organização, esclarecimento de dúvidas e refatoração de documentos. As decisões sobre o conteúdo do projeto, o levantamento das informações, a definição das entidades e dos relacionamentos e a elaboração do modelo DER foram realizadas e revisadas pelos integrantes do grupo.
 
-A ferramenta não foi utilizada para substituir o trabalho do grupo, mas como apoio pontual para estruturar textos, esclarecer conceitos e melhorar a apresentação de alguns materiais.
+As ferramentas não foram utilizadas para substituir o trabalho do grupo, mas como apoio pontual para estruturar textos, esclarecer conceitos, solucionar apontamentos de correção da disciplina e melhorar a apresentação dos materiais.
+
+---
 
 ## 5.1. Registro dos usos
 
@@ -534,17 +536,42 @@ A ferramenta não foi utilizada para substituir o trabalho do grupo, mas como ap
 
 ---
 
+### Uso 6 — Correção formal e refatoração do Dicionário de Dados (HTML)
+
+**Ferramenta e etapa:** Gemini — análise dos apontamentos de erro da avaliação e reestruturação técnica do arquivo `dicionario_banco_de_dados.html`.
+
+**Motivação:** Adequar o Dicionário de Dados anterior aos critérios formais de correção solicitados pelo professor na Entrega (foto de erro anexada), corrigindo falhas conceituais de regras de negócio, tratando atributos multivalorados/compostos, ajustando cardinalidades estritamente conforme o DER e incorporando seções técnicas obrigatórias.
+
+**Prompt utilizado (síntese):**
+> Preciso que você analise o arquivo do dicionário de banco de dados, analise os erros presentes na foto anexada e me entregue um novo dicionário sem erros. Mandei alguns arquivos como o README, o arquivo SQL, o DER e o modelo lógico para te ajudar na correção. Considere também que as cardinalidades corretas devem seguir rigorosamente o DER.
+
+**Resposta recebida:** Um arquivo HTML inteiramente reformulado (`dicionario_banco_de_dados.html`) contendo:
+1. Correção da atribuição de regras de negócio (transferindo a regra de status "Ativo, Arquivado ou Encerrado" de `Vara/Tribunal` para o atributo correto `status` da entidade `Processo`).
+2. Tratamento formal de atributos multivalorados e compostos (`Prazos`, `Pagamentos` e `Pendências`).
+3. Mapeamento das 10 entidades com definições formais, especificação de relacionamentos e cardinalidades alinhadas ao DER conceitual.
+4. Adição de seções de documentação técnica: Convenções do SGBD (MySQL e `utf8mb4_unicode_ci`), Notação Formal com especificação de tipos físicos de dados (`INT UNSIGNED`, `VARCHAR`, `DECIMAL(12,2)`, `DATETIME`, `ENUM`), Chaves e Índices, Fluxo de Dados, Log de Auditoria e Matriz de Permissões/LGPD.
+
+**Fontes consultadas e verificadas:** Apontamento visual da correção (imagem da avaliação), Diagrama Entidade-Relacionamento (`DER.jpeg`), script SQL (`banco-de-dados-atualizado (1).sql`) e a documentação do projeto (`README.md`).
+
+**Trechos rejeitados ou corrigidos:** A primeira versão gerada utilizava cardinalidades derivadas da tabela descritiva do Modelo Lógico. A sugestão foi prontamente ajustada pelo grupo para forçar a aderência estrita às cardinalidades indicadas no DER conceitual do projeto (`DER.jpeg`).
+
+**Justificativa da escolha final:** A refatoração gerada atendeu integralmente aos 6 requisitos faltantes/incorretos sinalizados pelo avaliador, mantendo a consistência entre o modelo conceitual, a implementação SQL e a documentação visual em HTML.
+
+**Reflexão crítica:** Ferramentas de IA são altamente produtivas para correlacionar falhas descritas em relatórios visuais com arquivos de código e documentação. No entanto, exigem mediação direta da equipe para validar a fonte de verdade das cardinalidades e manter a integridade conceitual do banco.
+
+---
+
 ## 5.2. Responsabilidade do grupo e limites do uso
 
-O grupo utilizou a ferramenta principalmente para:
+O grupo utilizou as ferramentas principalmente para:
 
 - organizar e reestruturar documentos em Markdown;
 - esclarecer dúvidas teóricas sobre conceitos de DER;
-- melhorar a apresentação do arquivo HTML do dicionário de dados;
+- refatorar e adequar formalmente o arquivo HTML do dicionário de dados conforme feedbacks de correção;
 - organizar o relatório da entrevista sem acrescentar informações não registradas.
 
 As atividades de levantamento e interpretação das necessidades da organização, definição das entidades e atributos, construção do DER, decisões de modelagem e validação do conteúdo permaneceram sob responsabilidade dos integrantes.
 
-As respostas da IA foram tratadas como sugestões e apoio. O grupo deve conferir os textos e exemplos antes de incluí-los na versão final do repositório.
+As respostas da IA foram tratadas como sugestões e apoio. O grupo revisou e validou os textos e códigos antes da inclusão final no repositório.
 
 **Observação sobre os prompts:** os textos apresentados nesta seção são sínteses representativas dos pedidos feitos durante as conversas, e não transcrições literais completas. Eles foram descritos dessa forma para registrar a finalidade de cada uso sem afirmar que são cópias exatas das mensagens originais.
