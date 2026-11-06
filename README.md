@@ -272,7 +272,6 @@ Não foi usada generalização/especialização. As variações que poderiam vir
 
 Não há atributo multivalorado no modelo, pois cada um foi transformado em tabela própria (`Contato`, `Documento`, `Processo_Equipe`). `Financeiro.pendencias` é derivável de honorários e pagamentos, e foi mantido como coluna porque o modelo ainda não tem tabela de pagamentos (ver 1.4).
 
-### 1.3 Definição de Chaves Primárias e Estrangeiras
 
 ### 1.3 Definição de Chaves Primárias e Estrangeiras
 
