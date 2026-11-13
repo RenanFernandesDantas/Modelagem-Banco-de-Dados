@@ -1,3 +1,6 @@
+#Link do vídeo de apresentação
+Link: https://youtu.be/aWIk-rWYKC8
+
 # Modelagem-Banco-de-Dados
 Repositório para a entrega das atividades da matéria de Modelagem de Banco de Dados do segundo semestre da faculdade
 
